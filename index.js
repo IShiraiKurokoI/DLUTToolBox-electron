@@ -13,7 +13,16 @@ function createWindow() {
     })
 
     mainWindow.loadFile(path.join(__dirname, 'index.html'))
-    const template = []
+    const template = [
+        {
+            label: '强制刷新',
+            role: 'forceReload' // 强制刷新页面
+        },{
+        label: '开发者工具',
+        click: () => {
+            mainWindow.webContents.openDevTools({ mode: 'detach' }); // 使用detach模式
+        }
+    }]
     const menu = Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(menu)
 }

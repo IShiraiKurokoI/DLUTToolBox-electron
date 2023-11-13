@@ -4,88 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>DLUTToolBox-electron</title>
-    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <script src="./js/jquery-3.6.0.min.js"></script>
+    <link href="./css/bootstrap.css" rel="stylesheet">
     <style>
-        body {
-            padding-top: 56px; /* 适应 Bootstrap 固定导航栏的高度 */
-        }
-
-        .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-        }
-
-        .sidebar {
-            height: 100%;
-            width: 250px;
-            position: fixed;
-            top: 56px; /* 适应 Bootstrap 固定导航栏的高度 */
-            left: 0;
-            overflow-x: hidden;
-            padding-top: 20px;
-        }
-
         .content {
-            margin-left: 260px; /* 考虑导航栏的宽度 */
             padding: 20px;
         }
     </style>
 </head>
-<body>
+<body class="content">
+<div class="row">
+    <nav class="nav nav-pills flex-column col-md-2">
+        <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="pill" href="#info">信息总览</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="pill" href="#network">网络工具</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="pill" href="#charge">日常缴费</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="pill" href="#exam">考试教务</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="pill" href="#study">学习生活</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="pill" href="#work">办事大厅</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="pill" href="#library">图书馆</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="pill" href="#other">其它系统</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="pill" href="#settings">参数配置</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="pill" href="#about">关于软件</a>
+            </li>
+        </ul>
+    </nav>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">首页</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">关于我们</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">服务</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">联系我们</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<div class="sidebar bg-light">
-    <ul class="nav flex-column">
-        <li class="nav-item">
-            <a class="nav-link active" href="#">
-                <i class="bi bi-house-door"></i> 首页
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">
-                <i class="bi bi-person"></i> 个人资料
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">
-                <i class="bi bi-gear"></i> 设置
-            </a>
-        </li>
-    </ul>
-</div>
-
-<div class="content">
-    <h2>页面内容</h2>
-    <p>在这里添加你的页面内容。</p>
-</div>
-
-<!-- 引入 Bootstrap 的 JavaScript 依赖 -->
-<script src="./js/bootstrap.bundle.min.js"></script>
+    <!-- 引入 Bootstrap 的 JavaScript 依赖 -->
+    <script src="./js/bootstrap.bundle.js"></script>
 </body>
 </html>
