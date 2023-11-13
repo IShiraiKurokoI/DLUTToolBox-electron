@@ -5,17 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>DLUTToolBox-electron</title>
     <script src="./js/jquery-3.6.0.min.js"></script>
-    <link href="./css/bootstrap.css" rel="stylesheet">
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link href="./css/bootstrap-grid.min.css" rel="stylesheet">
+    <link href="./css/bootstrap-grid.rtl.css" rel="stylesheet">
+    <link href="./css/bootstrap-reboot.min.css" rel="stylesheet">
+    <link href="./css/bootstrap-reboot.rtl.min.css" rel="stylesheet">
+    <link href="./css/bootstrap-utilities.min.css" rel="stylesheet">
+    <link href="./css/bootstrap-utilities.rtl.min.css" rel="stylesheet">
     <style>
         .content {
             padding: 20px;
+            height: 100vh;
+        }
+        .main-container{
+            height: 100%;
+        }
+        .max-ul{
+            height: 100%;
         }
     </style>
 </head>
 <body class="content">
-<div class="row">
+<div class="row main-container">
     <nav class="nav nav-pills flex-column col-md-2">
-        <ul class="nav nav-pills flex-column">
+        <ul class="nav nav-pills flex-column max-ul">
             <li class="nav-item">
                 <a class="nav-link active" data-toggle="pill" href="#info">信息总览</a>
             </li>
@@ -49,7 +63,22 @@
         </ul>
     </nav>
 
+    <div class="tab-content col-md-10">
+        <div class="tab-pane fade show active" id="info">信息总览界面内容</div>
+        <div class="tab-pane fade" id="network">网络工具界面内容</div>
+        <div class="tab-pane fade" id="charge">日常缴费界面内容</div>
+        <div class="tab-pane fade" id="exam">考试教务界面内容</div>
+        <div class="tab-pane fade" id="study">学习生活界面内容</div>
+        <div class="tab-pane fade" id="work">办事大厅界面内容</div>
+        <div class="tab-pane fade" id="library">图书馆界面内容</div>
+        <div class="tab-pane fade" id="other">其它系统界面内容</div>
+        <div class="tab-pane fade" id="settings">参数配置界面内容</div>
+        <div class="tab-pane fade" id="about">关于软件界面内容</div>
+    </div>
+
     <!-- 引入 Bootstrap 的 JavaScript 依赖 -->
-    <script src="./js/bootstrap.bundle.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/bootstrap.bundle.min.js"></script>
+</div>
 </body>
 </html>
