@@ -4,8 +4,67 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron index.js",
+    "build-icon": "electron-icon-builder --input=./icon.png --output=build --flatten",
+    "pack": "electron-builder"
   },
-  "author": "",
-  "license": "ISC"
+  "author": {
+    "name": "Shirai_Kuroko",
+    "email":"ishirai_kurokoi@foxmail.com"
+  },
+  "devDependencies": {
+    "electron": "^27.0.2",
+    "electron-builder": "^24.6.4",
+    "electron-icon-builder": "^2.0.1"
+  },
+  "license": "ISC",
+  "build": {
+    "appId": "shirai_kuroko.eda_network_status",
+    "productName": "DLUT-EDA校园网面板",
+    "copyright": "Copyright © 2023 shirai_kuroko",
+    "directories": {
+      "buildResources": "build",
+      "output": "dist"
+    },
+    "win": {
+      "target": ["msi","nsis"],
+      "icon": "build/icons/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "language": "2052",
+      "perMachine": true,
+      "allowToChangeInstallationDirectory": true
+    },
+    "mac": {
+      "target": ["dmg", "zip"],
+      "category": "public.app-category.utilities"
+    },
+    "dmg": {
+      "icon": "build/icons/icon.icns",
+      "iconSize": 100,
+      "contents": [
+        {
+          "x": 380,
+          "y": 180,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 130,
+          "y": 180,
+          "type": "file"
+        }
+      ],
+      "window": {
+        "width": 540,
+        "height": 380
+      }
+    },
+    "linux": {
+      "target": ["rpm", "deb"],
+      "icon": "build/icons"
+    }
+  }
 }

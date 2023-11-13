@@ -2,9 +2,89 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>DLUTToolBox-electron</title>
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 56px; /* 适应 Bootstrap 固定导航栏的高度 */
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            top: 56px; /* 适应 Bootstrap 固定导航栏的高度 */
+            left: 0;
+            overflow-x: hidden;
+            padding-top: 20px;
+        }
+
+        .content {
+            margin-left: 260px; /* 考虑导航栏的宽度 */
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
 
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">首页</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">关于我们</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">服务</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">联系我们</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="sidebar bg-light">
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link active" href="#">
+                <i class="bi bi-house-door"></i> 首页
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                <i class="bi bi-person"></i> 个人资料
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                <i class="bi bi-gear"></i> 设置
+            </a>
+        </li>
+    </ul>
+</div>
+
+<div class="content">
+    <h2>页面内容</h2>
+    <p>在这里添加你的页面内容。</p>
+</div>
+
+<!-- 引入 Bootstrap 的 JavaScript 依赖 -->
+<script src="./js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
