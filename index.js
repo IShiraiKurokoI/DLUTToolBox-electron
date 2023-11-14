@@ -1,6 +1,7 @@
 const { app, BrowserWindow, Menu} = require('electron')
 const path = require('path')
-
+const Store = require('electron-store');
+Store.initRenderer()
 function createWindow() {
     const mainWindow = new BrowserWindow({
         width: 1360,
