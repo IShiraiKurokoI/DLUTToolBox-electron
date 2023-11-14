@@ -44,7 +44,8 @@
             width: 24px;
             text-align: center;
         }
-        .app-card{
+
+        .app-card {
             display: flex;
             flex-direction: row;
             align-items: center;
@@ -52,14 +53,16 @@
             user-select: none;
             -webkit-user-drag: none;
         }
-        .app-card > img{
+
+        .app-card > img {
             width: 72px;
             height: 72px;
             margin-left: 12px;
             user-select: none;
             -webkit-user-drag: none;
         }
-        .app-card > .card-body > h5{
+
+        .app-card > .card-body > h5 {
             font-size: medium;
             display: -webkit-box;
             -webkit-box-orient: vertical;
@@ -67,7 +70,8 @@
             /* 设置行数，超过这个行数的内容会被省略 */
             -webkit-line-clamp: 1;
         }
-        .app-card > .card-body > p{
+
+        .app-card > .card-body > p {
             font-size: smaller;
             display: -webkit-box;
             -webkit-box-orient: vertical;
@@ -75,40 +79,56 @@
             /* 设置行数，超过这个行数的内容会被省略 */
             -webkit-line-clamp: 2;
         }
-        .app-pane{
+
+        .app-pane {
             padding-right: 20px;
             height: 100%;
         }
-        .app-pane > .col{
-            display: flex!important;
-            flex-direction: row!important;
+
+        .app-pane > .col {
+            display: flex !important;
+            flex-direction: row !important;
             gap: 10px;
             padding-bottom: 10px;
         }
+
         .app-card:hover {
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             transition: box-shadow 0.2s ease-in-out;
             cursor: pointer;
         }
-        .tab-content{
+
+        .tab-content {
             padding-left: 0;
         }
-        #workframe{
+
+        #workframe {
             width: 100%;
             height: 100%;
         }
-        #work-tab-pane{
+
+        #work-tab-pane {
             padding: 0;
         }
+
         .login-container h2 {
             text-align: center;
             margin-bottom: 30px;
         }
+
         .form-group {
             margin-bottom: 10px;
         }
+
         .form-group label {
             font-weight: bold;
+        }
+
+        #settings-tab-pane{
+            flex-direction: row;
+        }
+        .toast-container{
+
         }
     </style>
 </head>
@@ -178,7 +198,8 @@
              tabindex="0">
 
         </div>
-        <div class="tab-pane fade app-pane" id="network-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
+        <div class="tab-pane fade app-pane" id="network-tab-pane" role="tabpanel" aria-labelledby="network-tab"
+             tabindex="0">
             <div class="col">
                 <div class="col-md-3">
                     <div class="card app-card">
@@ -229,7 +250,8 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade app-pane" id="charge-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
+        <div class="tab-pane fade app-pane" id="charge-tab-pane" role="tabpanel" aria-labelledby="network-tab"
+             tabindex="0">
             <div class="col">
                 <div class="col-md-3">
                     <div class="card app-card">
@@ -260,7 +282,8 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade app-pane" id="exam-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
+        <div class="tab-pane fade app-pane" id="exam-tab-pane" role="tabpanel" aria-labelledby="network-tab"
+             tabindex="0">
             <div class="col">
                 <div class="col-md-3">
                     <div class="card app-card">
@@ -338,7 +361,8 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade app-pane" id="study-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
+        <div class="tab-pane fade app-pane" id="study-tab-pane" role="tabpanel" aria-labelledby="network-tab"
+             tabindex="0">
             <div class="col">
                 <div class="col-md-3">
                     <div class="card app-card">
@@ -416,24 +440,27 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade app-pane" id="work-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
-            <iframe id="workframe" src="https://webvpn.dlut.edu.cn/https/57787a7876706e323032336b657940247d100314f04d9742bf58b43d95aecb24c1/fp/view?m=fp"></iframe>
+        <div class="tab-pane fade app-pane" id="work-tab-pane" role="tabpanel" aria-labelledby="network-tab"
+             tabindex="0">
+            <iframe id="workframe"
+                    src="https://webvpn.dlut.edu.cn/https/57787a7876706e323032336b657940247d100314f04d9742bf58b43d95aecb24c1/fp/view?m=fp"></iframe>
             <script>
                 var iframe = document.getElementById('workframe');
 
                 //todo:自动认证
                 // 添加导航事件监听器
-                iframe.addEventListener('load', function() {
+                iframe.addEventListener('load', function () {
                     console.log('iframe导航完成');
                 });
 
                 // 你还可以监听其他导航事件，比如导航开始前的事件
-                iframe.contentWindow.addEventListener('beforeunload', function() {
+                iframe.contentWindow.addEventListener('beforeunload', function () {
                     console.log('iframe导航即将开始');
                 });
             </script>
         </div>
-        <div class="tab-pane fade app-pane" id="library-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
+        <div class="tab-pane fade app-pane" id="library-tab-pane" role="tabpanel" aria-labelledby="network-tab"
+             tabindex="0">
             <div class="col">
                 <div class="col-md-3">
                     <div class="card app-card">
@@ -493,14 +520,16 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade app-pane" id="other-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
+        <div class="tab-pane fade app-pane" id="other-tab-pane" role="tabpanel" aria-labelledby="network-tab"
+             tabindex="0">
             <div class="col">
                 <div class="col-md-3">
                     <div class="card app-card">
                         <img src="./icons/other/CloudDisk.png" class="card-img" alt="大工网盘">
                         <div class="card-body">
                             <h5 class="card-title">大工网盘</h5>
-                            <p class="card-text ">大连理工大学网盘系统（注意，学校提供的客户端文件系统驱动会导致高版本Windows崩溃）</p>
+                            <p class="card-text ">
+                                大连理工大学网盘系统（注意，学校提供的客户端文件系统驱动会导致高版本Windows崩溃）</p>
                         </div>
                     </div>
                 </div>
@@ -609,39 +638,27 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade app-pane" id="settings-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
+        <div class="tab-pane fade app-pane" id="settings-tab-pane" role="tabpanel" aria-labelledby="network-tab"
+             tabindex="0">
             <div class="login-container">
-            <form id="settings" >
-                <div class="form-group">
-                    <label for="username">学工号</label>
-                    <input type="text" class="form-control" id="username" placeholder="请输入您的学工号">
-                </div>
-                <div class="form-group">
-                    <label for="password">密码</label>
-                    <input type="password" class="form-control" id="password" placeholder="请输入您的密码">
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">保存</button>
-            </form>
-            </div>
-            <div class="toast-container position-fixed bottom-0 end-0 p-3">
-                <div id="Toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                    <div class="toast-header">
-                        <img src="..." class="rounded me-2" alt="...">
-                        <strong class="me-auto">Bootstrap</strong>
-                        <small>11 mins ago</small>
-                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                <form id="settings">
+                    <div class="form-group">
+                        <label for="username">学工号</label>
+                        <input type="text" class="form-control" id="username" placeholder="请输入您的学工号">
                     </div>
-                    <div class="toast-body">
-                        Hello, world! This is a toast message.
+                    <div class="form-group">
+                        <label for="password">密码</label>
+                        <input type="password" class="form-control" id="password" placeholder="请输入您的密码">
                     </div>
-                </div>
+                    <button type="submit" class="btn btn-primary btn-block">保存</button>
+                </form>
             </div>
         </div>
-        <div class="tab-pane fade app-pane" id="about-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
+        <div class="tab-pane fade app-pane" id="about-tab-pane" role="tabpanel" aria-labelledby="network-tab"
+             tabindex="0">
             关于软件界面内容
         </div>
     </div>
-
     <!-- 引入 Bootstrap 的 JavaScript 依赖 -->
     <script src="./js/bootstrap.min.js"></script>
     <script src="./js/settings.js"></script>
