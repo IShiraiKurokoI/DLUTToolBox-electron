@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>DLUTToolBox-electron</title>
     <script src="./js/jquery-3.6.0.min.js"></script>
+    <script src="./js/popper.min.js"></script>
     <link href="./css/bootstrap.min.css" rel="stylesheet">
     <link href="./css/bootstrap.rtl.min.css" rel="stylesheet">
     <link href="./css/bootstrap-grid.min.css" rel="stylesheet">
@@ -18,11 +19,21 @@
             padding: 20px;
             height: 100vh;
         }
-        .main-container{
+
+        .main-container {
             height: 100%;
         }
-        .max-ul{
+
+        .max-ul {
             height: 100%;
+            display: flex;
+            gap: 10px;
+        }
+        .function{
+            flex: 1;
+        }
+        .utility{
+            flex: none;
         }
     </style>
 </head>
@@ -30,55 +41,90 @@
 <div class="row main-container">
     <nav class="nav nav-pills flex-column col-md-2">
         <ul class="nav nav-pills flex-column max-ul">
-            <li class="nav-item">
-                <a class="nav-link active" data-toggle="pill" href="#info">信息总览</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="pill" href="#network">网络工具</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="pill" href="#charge">日常缴费</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="pill" href="#exam">考试教务</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="pill" href="#study">学习生活</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="pill" href="#work">办事大厅</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="pill" href="#library">图书馆</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="pill" href="#other">其它系统</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="pill" href="#settings">参数配置</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="pill" href="#about">关于软件</a>
-            </li>
+            <div class="function">
+                <li class="nav-item">
+                    <a class="nav-link active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info-tab-pane"
+                       role="tab" aria-controls="info-tab-pane" aria-selected="false" href="#info-tab">信息总览</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="network-tab" data-bs-toggle="tab" data-bs-target="#network-tab-pane"
+                       role="tab" aria-controls="network-tab-pane" aria-selected="false"
+                       href="#network-tab">网络工具</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="charge-tab" data-bs-toggle="tab" data-bs-target="#charge-tab-pane"
+                       role="tab" aria-controls="charge-tab-pane" aria-selected="false" href="#charge-tab">日常缴费</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="exam-tab" data-bs-toggle="tab" data-bs-target="#exam-tab-pane" role="tab"
+                       aria-controls="exam-tab-pane" aria-selected="false" href="#exam-tab">考试教务</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="study-tab" data-bs-toggle="tab" data-bs-target="#study-tab-pane" role="tab"
+                       aria-controls="study-tab-pane" aria-selected="false" href="#study-tab">学习生活</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="work-tab" data-bs-toggle="tab" data-bs-target="#work-tab-pane" role="tab"
+                       aria-controls="work-tab-pane" aria-selected="false" href="#work-tab">办事大厅</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="library-tab" data-bs-toggle="tab" data-bs-target="#library-tab-pane"
+                       role="tab" aria-controls="library-tab-pane" aria-selected="false" href="#library-tab">图书馆</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="other-tab" data-bs-toggle="tab" data-bs-target="#other-tab-pane" role="tab"
+                       aria-controls="other-tab-pane" aria-selected="false" href="#other-tab">其它系统</a>
+                </li>
+            </div>
+            <div class="utility">
+                <li class="nav-item">
+                    <a class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings-tab-pane"
+                       role="tab" aria-controls="settings-tab-pane" aria-selected="false"
+                       href="#settings-tab">参数配置</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="about-tab" data-bs-toggle="tab" data-bs-target="#about-tab-pane" role="tab"
+                       aria-controls="about-tab-pane" aria-selected="false" href="#about-tab">关于软件</a>
+                </li>
+            </div>
         </ul>
     </nav>
 
     <div class="tab-content col-md-10">
-        <div class="tab-pane fade show active" id="info">信息总览界面内容</div>
-        <div class="tab-pane fade" id="network">网络工具界面内容</div>
-        <div class="tab-pane fade" id="charge">日常缴费界面内容</div>
-        <div class="tab-pane fade" id="exam">考试教务界面内容</div>
-        <div class="tab-pane fade" id="study">学习生活界面内容</div>
-        <div class="tab-pane fade" id="work">办事大厅界面内容</div>
-        <div class="tab-pane fade" id="library">图书馆界面内容</div>
-        <div class="tab-pane fade" id="other">其它系统界面内容</div>
-        <div class="tab-pane fade" id="settings">参数配置界面内容</div>
-        <div class="tab-pane fade" id="about">关于软件界面内容</div>
+        <div class="tab-pane fade show active" id="info-tab-pane" role="tabpanel" aria-labelledby="info-tab"
+             tabindex="0">信息总览界面内容
+        </div>
+        <div class="tab-pane fade" id="network-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
+            网络工具界面内容
+        </div>
+        <div class="tab-pane fade" id="charge-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
+            日常缴费界面内容
+        </div>
+        <div class="tab-pane fade" id="exam-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
+            考试教务界面内容
+        </div>
+        <div class="tab-pane fade" id="study-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
+            学习生活界面内容
+        </div>
+        <div class="tab-pane fade" id="work-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
+            办事大厅界面内容
+        </div>
+        <div class="tab-pane fade" id="library-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
+            图书馆界面内容
+        </div>
+        <div class="tab-pane fade" id="other-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
+            其它系统界面内容
+        </div>
+        <div class="tab-pane fade" id="settings-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
+            参数配置界面内容
+        </div>
+        <div class="tab-pane fade" id="about-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
+            关于软件界面内容
+        </div>
     </div>
 
     <!-- 引入 Bootstrap 的 JavaScript 依赖 -->
     <script src="./js/bootstrap.min.js"></script>
-    <script src="./js/bootstrap.bundle.min.js"></script>
 </div>
 </body>
 </html>
