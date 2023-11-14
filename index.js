@@ -12,7 +12,8 @@ function createWindow() {
             webSecurity: false,
             contextIsolation: false,
             nodeIntegration: true,
-            enableRemoteModule: true
+            enableRemoteModule: true,
+            webviewTag:true
         }
     })
 
@@ -30,6 +31,7 @@ function createWindow() {
     const menu = Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(menu)
 }
+
 app.whenReady().then(() => {
     createWindow()
 

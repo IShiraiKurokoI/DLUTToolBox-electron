@@ -442,22 +442,7 @@
         </div>
         <div class="tab-pane fade app-pane" id="work-tab-pane" role="tabpanel" aria-labelledby="network-tab"
              tabindex="0">
-            <iframe id="workframe"
-                    src="https://webvpn.dlut.edu.cn/https/57787a7876706e323032336b657940247d100314f04d9742bf58b43d95aecb24c1/fp/view?m=fp"></iframe>
-            <script>
-                var iframe = document.getElementById('workframe');
-
-                //todo:自动认证
-                // 添加导航事件监听器
-                iframe.addEventListener('load', function () {
-                    console.log('iframe导航完成');
-                });
-
-                // 你还可以监听其他导航事件，比如导航开始前的事件
-                iframe.contentWindow.addEventListener('beforeunload', function () {
-                    console.log('iframe导航即将开始');
-                });
-            </script>
+            <webview id="workframe" src="https://webvpn.dlut.edu.cn/https/57787a7876706e323032336b657940247d100314f04d9742bf58b43d95aecb24c1/fp/view?m=fp"></webview>
         </div>
         <div class="tab-pane fade app-pane" id="library-tab-pane" role="tabpanel" aria-labelledby="network-tab"
              tabindex="0">
