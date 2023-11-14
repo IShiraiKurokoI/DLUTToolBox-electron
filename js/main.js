@@ -15,4 +15,13 @@ window.onload = function() {
 
         event.preventDefault()
     });
+
+
+    const workframe = $("#workframe")
+    workframe.on('did-navigate', function (event) {
+        const currentURL = workframe[0].getURL();
+        if (currentURL.includes("/cas/login?")){
+            workframe[0].executeJavaScript("un.value='" + store.get("username") + "';pd.value='" + store.get("password") + "';rememberName.checked='checked';login()",false);
+        }
+    });
 };
