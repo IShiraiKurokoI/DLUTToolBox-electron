@@ -44,6 +44,37 @@
             width: 24px;
             text-align: center;
         }
+        .app-card{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            height: 96px;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+        .app-card > img{
+            width: 72px;
+            height: 72px;
+            margin-left: 12px;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+        .app-card > .card-body > h5{
+            font-size: medium;
+        }
+        .app-card > .card-body > p{
+            font-size: smaller;
+        }
+        .app-pane{
+            display: flex!important;
+            flex-direction: row!important;
+            gap: 10px;
+            padding: 20px;
+        }
+        .app-card:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.4s ease-in-out;
+        }
     </style>
 </head>
 <body class="content">
@@ -112,12 +143,32 @@
              tabindex="0">
             信息总览界面内容
         </div>
-        <div class="tab-pane fade" id="network-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
-            网络工具界面内容
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <div class="tab-pane fade app-pane" id="network-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
+            <div class="col-md-3">
+                <div class="card app-card">
+                    <img src="./icons/charge/Ecard.png" class="card-img" alt="玉兰卡">
+                    <div class="card-body">
+                        <h5 class="card-title">玉兰卡</h5>
+                        <p class="card-text ">校园一卡通玉兰卡服务页面，也可以缴费</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card app-card">
+                    <img src="./icons/charge/Pay.png" class="card-img" alt="电费充值">
+                    <div class="card-body">
+                        <h5 class="card-title">电费充值</h5>
+                        <p class="card-text ">统一缴费平台电费充值界面</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card app-card">
+                    <img src="./icons/charge/Refresh.png" class="card-img" alt="刷新电费数据">
+                    <div class="card-body">
+                        <h5 class="card-title">刷新电费数据</h5>
+                        <p class="card-text ">刷新页面内电费数据</p>
+                    </div>
                 </div>
             </div>
         </div>
