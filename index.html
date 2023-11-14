@@ -66,14 +66,17 @@
             font-size: smaller;
         }
         .app-pane{
+            padding: 20px;
+        }
+        .app-pane > .col{
             display: flex!important;
             flex-direction: row!important;
             gap: 10px;
-            padding: 20px;
+            padding-bottom: 10px;
         }
         .app-card:hover {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: box-shadow 0.4s ease-in-out;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: box-shadow 0.2s ease-in-out;
         }
     </style>
 </head>
@@ -139,61 +142,111 @@
     </nav>
 
     <div class="tab-content col-md-10">
-        <div class="tab-pane fade show active" id="info-tab-pane" role="tabpanel" aria-labelledby="info-tab"
+        <div class="tab-pane fade app-pane show active" id="info-tab-pane" role="tabpanel" aria-labelledby="info-tab"
              tabindex="0">
             信息总览界面内容
         </div>
         <div class="tab-pane fade app-pane" id="network-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
-            <div class="col-md-3">
-                <div class="card app-card">
-                    <img src="./icons/charge/Ecard.png" class="card-img" alt="玉兰卡">
-                    <div class="card-body">
-                        <h5 class="card-title">玉兰卡</h5>
-                        <p class="card-text ">校园一卡通玉兰卡服务页面，也可以缴费</p>
+            <div class="col">
+                <div class="col-md-3">
+                    <div class="card app-card">
+                        <img src="./icons/network/NetworkMonitor.png" class="card-img" alt="校园网状态">
+                        <div class="card-body">
+                            <h5 class="card-title">校园网状态</h5>
+                            <p class="card-text ">CERNET各出入口线路负载状态监视图</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card app-card">
+                        <img src="./icons/network/SelfService.png" class="card-img" alt="校园网自服务">
+                        <div class="card-body">
+                            <h5 class="card-title">校园网自服务</h5>
+                            <p class="card-text ">校园网的自服务界面，可以管理账户和充值等等</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card app-card">
+                        <img src="./icons/network/Connect.png" class="card-img" alt="手动连接">
+                        <div class="card-body">
+                            <h5 class="card-title">手动连接</h5>
+                            <p class="card-text ">点击执行开发区校区校园网认证程序</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card app-card">
+                        <img src="./icons/network/Disconnect.png" class="card-img" alt="手动注销">
+                        <div class="card-body">
+                            <h5 class="card-title">手动注销</h5>
+                            <p class="card-text ">点击执行开发区校区校园网注销程序</p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card app-card">
-                    <img src="./icons/charge/Pay.png" class="card-img" alt="电费充值">
-                    <div class="card-body">
-                        <h5 class="card-title">电费充值</h5>
-                        <p class="card-text ">统一缴费平台电费充值界面</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card app-card">
-                    <img src="./icons/charge/Refresh.png" class="card-img" alt="刷新电费数据">
-                    <div class="card-body">
-                        <h5 class="card-title">刷新电费数据</h5>
-                        <p class="card-text ">刷新页面内电费数据</p>
+            <div class="col">
+                <div class="col-md-3">
+                    <div class="card app-card">
+                        <img src="./icons/network/Refresh.png" class="card-img" alt="网络状态刷新">
+                        <div class="card-body">
+                            <h5 class="card-title">网络状态刷新</h5>
+                            <p class="card-text ">刷新下方校园网状态信息</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade" id="charge-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
-            日常缴费界面内容
+        <div class="tab-pane fade app-pane" id="charge-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
+            <div class="col">
+                <div class="col-md-3">
+                    <div class="card app-card">
+                        <img src="./icons/charge/Ecard.png" class="card-img" alt="玉兰卡">
+                        <div class="card-body">
+                            <h5 class="card-title">玉兰卡</h5>
+                            <p class="card-text ">校园一卡通玉兰卡服务页面，也可以缴费</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card app-card">
+                        <img src="./icons/charge/Pay.png" class="card-img" alt="电费充值">
+                        <div class="card-body">
+                            <h5 class="card-title">电费充值</h5>
+                            <p class="card-text ">统一缴费平台电费充值界面</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card app-card">
+                        <img src="./icons/charge/Refresh.png" class="card-img" alt="刷新电费数据">
+                        <div class="card-body">
+                            <h5 class="card-title">刷新电费数据</h5>
+                            <p class="card-text ">刷新页面内电费数据</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="tab-pane fade" id="exam-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
+        <div class="tab-pane fade app-pane" id="exam-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
             考试教务界面内容
         </div>
-        <div class="tab-pane fade" id="study-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
+        <div class="tab-pane fade app-pane" id="study-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
             学习生活界面内容
         </div>
-        <div class="tab-pane fade" id="work-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
+        <div class="tab-pane fade app-pane" id="work-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
             办事大厅界面内容
         </div>
-        <div class="tab-pane fade" id="library-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
+        <div class="tab-pane fade app-pane" id="library-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
             图书馆界面内容
         </div>
-        <div class="tab-pane fade" id="other-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
+        <div class="tab-pane fade app-pane" id="other-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
             其它系统界面内容
         </div>
-        <div class="tab-pane fade" id="settings-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
+        <div class="tab-pane fade app-pane" id="settings-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
             参数配置界面内容
         </div>
-        <div class="tab-pane fade" id="about-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
+        <div class="tab-pane fade app-pane" id="about-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
             关于软件界面内容
         </div>
     </div>
