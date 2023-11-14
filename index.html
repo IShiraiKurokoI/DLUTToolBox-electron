@@ -124,11 +124,21 @@
             font-weight: bold;
         }
 
-        #settings-tab-pane{
+        #settings-tab-pane {
             flex-direction: row;
         }
-        #settings{
+
+        #settings {
             padding: 20px;
+        }
+
+        #weather {
+            width: 30%;
+            padding: 10px;
+            height: 100%;
+        }
+        #info-tab-pane > .col{
+            height: 100%;
         }
     </style>
 </head>
@@ -196,7 +206,9 @@
     <div class="tab-content col-md-10">
         <div class="tab-pane fade app-pane show active" id="info-tab-pane" role="tabpanel" aria-labelledby="info-tab"
              tabindex="0">
-
+            <div class="col">
+                <webview id="weather" src="http://www.weather.com.cn"></webview>
+            </div>
         </div>
         <div class="tab-pane fade app-pane" id="network-tab-pane" role="tabpanel" aria-labelledby="network-tab"
              tabindex="0">
@@ -442,7 +454,8 @@
         </div>
         <div class="tab-pane fade app-pane" id="work-tab-pane" role="tabpanel" aria-labelledby="network-tab"
              tabindex="0">
-            <webview id="workframe" src="https://webvpn.dlut.edu.cn/https/57787a7876706e323032336b657940247d100314f04d9742bf58b43d95aecb24c1/fp/view?m=fp"></webview>
+            <webview id="workframe"
+                     src="https://webvpn.dlut.edu.cn/https/57787a7876706e323032336b657940247d100314f04d9742bf58b43d95aecb24c1/fp/view?m=fp"></webview>
         </div>
         <div class="tab-pane fade app-pane" id="library-tab-pane" role="tabpanel" aria-labelledby="network-tab"
              tabindex="0">
@@ -647,8 +660,10 @@
                     <p class="lead">使用electron重构的跨平台一站式DLUT桌面端解决方案。</p>
                     <hr class="my-4">
                     <p>by IShirai_KurokoI</p>
-                    <p>欢迎访问我的 GitHub 仓库：<a href="https://github.com/IShiraiKurokoI?tab=repositories" target="_blank">GitHub</a></p>
-                    <p>关注我的 Bilibili 频道：<a href="https://space.bilibili.com/310144483" target="_blank">Bilibili</a></p>
+                    <p>欢迎访问我的 GitHub 仓库：<a href="https://github.com/IShiraiKurokoI?tab=repositories"
+                                                   target="_blank">GitHub</a></p>
+                    <p>关注我的 Bilibili 频道：<a href="https://space.bilibili.com/310144483"
+                                                 target="_blank">Bilibili</a></p>
                 </div>
             </div>
         </div>
