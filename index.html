@@ -61,12 +61,22 @@
         }
         .app-card > .card-body > h5{
             font-size: medium;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            /* 设置行数，超过这个行数的内容会被省略 */
+            -webkit-line-clamp: 1;
         }
         .app-card > .card-body > p{
             font-size: smaller;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            /* 设置行数，超过这个行数的内容会被省略 */
+            -webkit-line-clamp: 2;
         }
         .app-pane{
-            padding: 20px;
+            padding-right: 20px;
         }
         .app-pane > .col{
             display: flex!important;
@@ -77,6 +87,10 @@
         .app-card:hover {
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             transition: box-shadow 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .tab-content{
+            padding-left: 0;
         }
     </style>
 </head>
