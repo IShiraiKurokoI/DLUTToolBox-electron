@@ -100,30 +100,15 @@
         #work-tab-pane{
             padding: 0;
         }
-        #info-tab-pane{
-            display: flex;
-            flex-direction: row;
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 30px;
         }
-        .general-left{
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-            height: 100%;
+        .form-group {
+            margin-bottom: 10px;
         }
-        .general-right{
-            display: flex;
-            flex-direction: row;
-            flex:none;
-            height: 100%;
-        }
-        #class-table{
-            padding-right: 10px;
-            height: 100%;
-            width: 28vw;
-        }
-        #weather-frame{
-            height: 100%;
-            width: 28vw;
+        .form-group label {
+            font-weight: bold;
         }
     </style>
 </head>
@@ -191,31 +176,7 @@
     <div class="tab-content col-md-10">
         <div class="tab-pane fade app-pane show active" id="info-tab-pane" role="tabpanel" aria-labelledby="info-tab"
              tabindex="0">
-            <div class="general-left">
 
-            </div>
-            <div class="general-right">
-                <iframe id="class-table" src="https://api.m.dlut.edu.cn/login?client_id=9qXqHnRQuhhViycC&redirect_uri=https%3a%2f%2flightapp.m.dlut.edu.cn%2fcheck%2fcourseschedule&response_type=code"></iframe>
-                <iframe id="weather-frame" src="http://www.weather.com.cn"></iframe>
-                <script>
-                    var iframe = document.getElementById('weather-frame');
-                    // 添加iframe加载完成事件监听器
-                    iframe.addEventListener('load', function() {
-                        console.log('weather-frame导航完成');
-                        // 获取iframe的Window对象
-                        var iframeWindow = iframe.contentWindow;
-                        // 在iframe中执行JavaScript代码
-                        iframeWindow.document.body.innerHTML = iframeWindow.document.getElementsByClassName('myWeather')[0].outerHTML;
-                        iframeWindow.document.getElementsByClassName('myWeatherTop')[0].outerHTML='';
-                        iframeWindow.document.getElementsByTagName('a')[0].outerHTML='';
-                        iframeWindow.document.body.style="overflow:hidden;background-color:transparent";
-                        iframeWindow.document.getElementsByTagName('div')[0].style='background-color:transparent';
-
-                        // 在这里可以执行其他操作...
-                        console.log('在iframe中执行代码完成');
-                    });
-                </script>
-            </div>
         </div>
         <div class="tab-pane fade app-pane" id="network-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
             <div class="col">
@@ -649,7 +610,32 @@
             </div>
         </div>
         <div class="tab-pane fade app-pane" id="settings-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
-            参数配置界面内容
+            <div class="login-container">
+            <form id="settings" >
+                <div class="form-group">
+                    <label for="username">学工号</label>
+                    <input type="text" class="form-control" id="username" placeholder="请输入您的学工号">
+                </div>
+                <div class="form-group">
+                    <label for="password">密码</label>
+                    <input type="password" class="form-control" id="password" placeholder="请输入您的密码">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">保存</button>
+            </form>
+            </div>
+            <div class="toast-container position-fixed bottom-0 end-0 p-3">
+                <div id="Toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <img src="..." class="rounded me-2" alt="...">
+                        <strong class="me-auto">Bootstrap</strong>
+                        <small>11 mins ago</small>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">
+                        Hello, world! This is a toast message.
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="tab-pane fade app-pane" id="about-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
             关于软件界面内容
@@ -658,6 +644,7 @@
 
     <!-- 引入 Bootstrap 的 JavaScript 依赖 -->
     <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/settings.js"></script>
 </div>
 </body>
 </html>

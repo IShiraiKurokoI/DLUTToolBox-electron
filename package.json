@@ -11,7 +11,7 @@
   },
   "author": {
     "name": "Shirai_Kuroko",
-    "email":"ishirai_kurokoi@foxmail.com"
+    "email": "ishirai_kurokoi@foxmail.com"
   },
   "devDependencies": {
     "electron": "^27.0.2",
@@ -28,7 +28,10 @@
       "output": "dist"
     },
     "win": {
-      "target": ["msi","nsis"],
+      "target": [
+        "msi",
+        "nsis"
+      ],
       "icon": "build/icons/icon.ico"
     },
     "nsis": {
@@ -38,7 +41,10 @@
       "allowToChangeInstallationDirectory": true
     },
     "mac": {
-      "target": ["dmg", "zip"],
+      "target": [
+        "dmg",
+        "zip"
+      ],
       "category": "public.app-category.utilities"
     },
     "dmg": {
@@ -63,8 +69,14 @@
       }
     },
     "linux": {
-      "target": ["rpm", "deb"],
+      "target": [
+        "rpm",
+        "deb"
+      ],
       "icon": "build/icons"
     }
+  },
+  "dependencies": {
+    "electron-store": "^8.1.0"
   }
 }
