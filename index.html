@@ -100,6 +100,31 @@
         #work-tab-pane{
             padding: 0;
         }
+        #info-tab-pane{
+            display: flex;
+            flex-direction: row;
+        }
+        .general-left{
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            height: 100%;
+        }
+        .general-right{
+            display: flex;
+            flex-direction: row;
+            flex:none;
+            height: 100%;
+        }
+        #class-table{
+            padding-right: 10px;
+            height: 100%;
+            width: 28vw;
+        }
+        #weather-frame{
+            height: 100%;
+            width: 28vw;
+        }
     </style>
 </head>
 <body class="content">
@@ -166,7 +191,31 @@
     <div class="tab-content col-md-10">
         <div class="tab-pane fade app-pane show active" id="info-tab-pane" role="tabpanel" aria-labelledby="info-tab"
              tabindex="0">
-            信息总览界面内容
+            <div class="general-left">
+
+            </div>
+            <div class="general-right">
+                <iframe id="class-table" src="https://api.m.dlut.edu.cn/login?client_id=9qXqHnRQuhhViycC&redirect_uri=https%3a%2f%2flightapp.m.dlut.edu.cn%2fcheck%2fcourseschedule&response_type=code"></iframe>
+                <iframe id="weather-frame" src="http://www.weather.com.cn"></iframe>
+                <script>
+                    var iframe = document.getElementById('weather-frame');
+                    // 添加iframe加载完成事件监听器
+                    iframe.addEventListener('load', function() {
+                        console.log('weather-frame导航完成');
+                        // 获取iframe的Window对象
+                        var iframeWindow = iframe.contentWindow;
+                        // 在iframe中执行JavaScript代码
+                        iframeWindow.document.body.innerHTML = iframeWindow.document.getElementsByClassName('myWeather')[0].outerHTML;
+                        iframeWindow.document.getElementsByClassName('myWeatherTop')[0].outerHTML='';
+                        iframeWindow.document.getElementsByTagName('a')[0].outerHTML='';
+                        iframeWindow.document.body.style="overflow:hidden;background-color:transparent";
+                        iframeWindow.document.getElementsByTagName('div')[0].style='background-color:transparent';
+
+                        // 在这里可以执行其他操作...
+                        console.log('在iframe中执行代码完成');
+                    });
+                </script>
+            </div>
         </div>
         <div class="tab-pane fade app-pane" id="network-tab-pane" role="tabpanel" aria-labelledby="network-tab" tabindex="0">
             <div class="col">

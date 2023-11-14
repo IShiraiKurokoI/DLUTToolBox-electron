@@ -8,7 +8,8 @@ function createWindow() {
         icon: path.join(__dirname, 'icon.ico'),
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
-            webSecurity: false
+            webSecurity: false,
+
         }
     })
 
@@ -26,7 +27,6 @@ function createWindow() {
     const menu = Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(menu)
 }
-
 app.whenReady().then(() => {
     createWindow()
 
