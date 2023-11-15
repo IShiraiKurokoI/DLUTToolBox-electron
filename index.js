@@ -21,7 +21,10 @@ function createWindow() {
             nodeIntegration: true,
             enableRemoteModule: true,
             webviewTag: true,
-            experimentalFeatures: true
+            experimentalFeatures: true,
+            webPreferences:{
+                partition:"browser_window"
+            },
         }
     })
 
@@ -41,22 +44,35 @@ app.whenReady().then(() => {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
     })
 
-    ipcMain.on('send-post-request-info', (event, requestInfo) => {
-        requestInfo =JSON.parse(requestInfo);
-        const { loginURL, headers, formData } = requestInfo;
+    ipcMain.on('network_login', (event, loginURL) => {
+        const store = new Store();
+        const childWin = new BrowserWindow({
+            width: 200,
+            height: 100,
+            show:false,
+            webPreferences:{
+                partition:"network_login"
+            },
+            icon: path.join(__dirname, 'icon.ico'),
+            thickFrame: true
+        });
 
-        fetch(loginURL, {
-            method: 'POST',
-            headers: headers,
-            body: JSON.stringify(formData)
-        })
-            .then(response => {
-                console.log(response.text())
-            })
-            .catch(error => {
-                // 处理错误并发送回渲染进程
-                event.sender.send('request-info-response', { error: error.message });
-            });
+        childWin.webContents.on('did-finish-load', () => {
+            const currentURL = childWin.webContents.getURL();
+            if (currentURL.includes("/cas/login?")) {
+                childWin.webContents.executeJavaScript("un.value='" + store.get("username") + "';pd.value='" + store.get("password") + "';rememberName.checked='checked';login()");
+            }
+            if (currentURL.includes("/Self/dashboard")) {
+                childWin.webContents.session.clearStorageData([],function (data) {
+                    console.log(data);
+                })
+                event.sender.send('network_login', "login done");
+                childWin.close()
+            }
+        });
+
+        childWin.loadURL(loginURL);
+        childWin.setMenu(null);
     });
 
     ipcMain.on('openWindow', (event, arg) => {
@@ -67,9 +83,7 @@ app.whenReady().then(() => {
             icon: path.join(__dirname, 'icon.ico'),
             thickFrame: true
         });
-
         var funcnum = arg - 1;
-
         childWin.webContents.on('did-finish-load', () => {
             // 获取当前页面的URL
             const currentURL = childWin.webContents.getURL();
@@ -82,11 +96,9 @@ app.whenReady().then(() => {
                     break;
             }
         });
-
         // 加载页面
         console.log(`[Browser Page]Load page:${functions[funcnum]}`);
         childWin.loadURL(functions[funcnum]);
-
         // 创建菜单
         const template = [
             {
@@ -126,12 +138,9 @@ app.whenReady().then(() => {
                 }
             }
         ];
-
         const menu = Menu.buildFromTemplate(template);
-        Menu.setApplicationMenu(menu);
+        childWin.setMenu(menu)
     });
-
-
 })
 
 app.on('window-all-closed', function () {
