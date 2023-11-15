@@ -2,6 +2,61 @@ const Store = require('electron-store');
 const $ = require("jquery");
 const store = new Store();
 
+function load_class_table(num){
+    const requestData = {
+        app_key: '20460cbb2ccf1c97',
+        app_secret: '1dcc14a227a6f8d9b37792b7b053f671',
+        grant_type: 'client_credentials',
+        scope: 'all'
+    };
+    // 发送POST请求
+    fetch('https://api.m.dlut.edu.cn/oauth/token', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: Object.keys(requestData).map(key => `${encodeURIComponent(key)}=${encodeURIComponent(requestData[key])}`).join('&')
+    })
+        .then(response => response.json())
+        .then(data => {
+            let apiUrl = `https://api.m.dlut.edu.cn/lightappapi/course/get_today_course?access_token=${data.access_token}&app_version=3.2.7.74627&domain=dlut&identity=student&platform=android&student_number=${num}`;
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.errcode ===0){
+                        var classTable = document.getElementById('class-table');
+                        var noClassesMessage = document.getElementById('no-classes-message');
+                        if (data.data.length === 0) {
+                            noClassesMessage.style.display = 'block';
+                        } else {
+                            noClassesMessage.style.display = 'none';
+                            // 遍历数据并渲染表格
+                            data.data.forEach(function (item) {
+                                var row = classTable.insertRow();
+                                var startTimeCell = row.insertCell(0);
+                                var endTimeCell = row.insertCell(1);
+                                var courseNameCell = row.insertCell(2);
+                                var courseAddressCell = row.insertCell(3);
+
+                                // 设置单元格内容，去掉时间中的 ":00"
+                                startTimeCell.innerHTML = item.event_begintime.slice(0, -3);
+                                endTimeCell.innerHTML = item.event_endtime.slice(0, -3);
+                                courseNameCell.innerHTML = item.course_name;
+                                courseAddressCell.innerHTML = item.course_address;
+                            });
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            return;
+        });
+}
+
 window.onload = function() {
     $('#username').val(store.get("username"))
     $('#password').val(store.get("password"))
@@ -21,7 +76,7 @@ window.onload = function() {
     weather.on('did-navigate', function (event) {
         var currentURL = weather[0].getURL();
         if (currentURL.includes("cas/login?")){
-            classtable[0].executeJavaScript("un.value='" + store.get("username") + "';pd.value='" + store.get("password") + "';rememberName.checked='checked';login()",false);
+            weather[0].executeJavaScript("un.value='" + store.get("username") + "';pd.value='" + store.get("password") + "';rememberName.checked='checked';login()",false);
         }
         if (currentURL==="http://www.weather.com.cn/"){
             weather[0].executeJavaScript("document.body.innerHTML=document.getElementsByClassName('myWeather')[0].outerHTML;document.getElementsByClassName('myWeatherTop')[0].outerHTML='';document.getElementsByTagName('a')[0].outerHTML='';document.body.style='overflow:hidden;background-color:transparent';document.getElementsByTagName('div')[0].style='background-color:transparent';",false);
@@ -36,4 +91,6 @@ window.onload = function() {
             workframe[0].executeJavaScript("un.value='" + store.get("username") + "';pd.value='" + store.get("password") + "';rememberName.checked='checked';login()",false);
         }
     });
+
+    load_class_table(store.get("username"))
 };
