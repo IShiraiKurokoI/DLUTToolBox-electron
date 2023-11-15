@@ -1,6 +1,7 @@
 const Store = require('electron-store');
 const $ = require("jquery");
 const store = new Store();
+const { ipcRenderer } = require('electron')
 
 function load_class_table(num) {
     const requestData = {
@@ -138,6 +139,16 @@ window.onload = function () {
         var currentURL = workframe[0].getURL();
         if (currentURL.includes("/cas/login?")) {
             workframe[0].executeJavaScript("un.value='" + store.get("username") + "';pd.value='" + store.get("password") + "';rememberName.checked='checked';login()", false);
+        }
+    });
+
+    $(document).on('click', '.app-card', function() {
+        const dataFunction = $(this).data('function');
+
+        if (!dataFunction) {
+            new Notification("功能暂未实现", {body: "敬请期待"}).onclick = () => console.log("")
+        } else {
+            ipcRenderer.send('openWindow',dataFunction)
         }
     });
 
