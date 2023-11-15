@@ -2,7 +2,7 @@ const Store = require('electron-store');
 const $ = require("jquery");
 const store = new Store();
 
-function load_class_table(num){
+function load_class_table(num) {
     const requestData = {
         app_key: '20460cbb2ccf1c97',
         app_secret: '1dcc14a227a6f8d9b37792b7b053f671',
@@ -23,7 +23,7 @@ function load_class_table(num){
             fetch(apiUrl)
                 .then(response => response.json())
                 .then(data => {
-                    if (data.errcode ===0){
+                    if (data.errcode === 0) {
                         var classTable = document.getElementById('class-table');
                         var noClassesMessage = document.getElementById('no-classes-message');
                         if (data.data.length === 0) {
@@ -79,6 +79,7 @@ function updateTableForGeneral(data) {
     $('.general-network-table #remainingFlow').text(formatBytes(data.olflow));
     $('.general-network-table #loginTime').text(data.etime);
 }
+
 function cleanTableForGeneral() {
     $('.general-network-table #onlineStatus').text('-');
     $('.general-network-table #account').text('-');
@@ -89,6 +90,7 @@ function cleanTableForGeneral() {
     $('.general-network-table #remainingFlow').text('-');
     $('.general-network-table #loginTime').text('-');
 }
+
 function loadNetworkDataForGeneral() {
     $.get('http://172.20.30.1/drcom/chkstatus?callback=', function (data) {
         cleanTableForGeneral()
@@ -98,15 +100,21 @@ function loadNetworkDataForGeneral() {
     });
 }
 
-window.onload = function() {
+function loadEleinfo() {
+    const url = 'https://api.m.dlut.edu.cn/oauth/authorize?client_id=19b32196decf419a&redirect_uri=https%3A%2F%2Fcard.m.dlut.edu.cn%2Fhomerj%2FopenRjOAuthPage&response_type=code&scope=base_api&state=weishao';
+
+    //todo:完成电费查看
+}
+
+window.onload = function () {
     $('#username').val(store.get("username"))
     $('#password').val(store.get("password"))
-    $('#settings').on('submit', function(event) {
+    $('#settings').on('submit', function (event) {
         store.set('username', $('#username').val());
         store.set('password', $('#password').val());
         const NOTIFICATION_TITLE = '保存成功'
         const NOTIFICATION_BODY = '配置已经成功保存！'
-        new Notification(NOTIFICATION_TITLE, { body: NOTIFICATION_BODY }).onclick =
+        new Notification(NOTIFICATION_TITLE, {body: NOTIFICATION_BODY}).onclick =
             () => console.log("")
 
         event.preventDefault()
@@ -116,11 +124,11 @@ window.onload = function() {
     const weather = $("#weather")
     weather.on('did-navigate', function (event) {
         var currentURL = weather[0].getURL();
-        if (currentURL.includes("cas/login?")){
-            weather[0].executeJavaScript("un.value='" + store.get("username") + "';pd.value='" + store.get("password") + "';rememberName.checked='checked';login()",false);
+        if (currentURL.includes("cas/login?")) {
+            weather[0].executeJavaScript("un.value='" + store.get("username") + "';pd.value='" + store.get("password") + "';rememberName.checked='checked';login()", false);
         }
-        if (currentURL==="http://www.weather.com.cn/"){
-            weather[0].executeJavaScript("document.body.innerHTML=document.getElementsByClassName('myWeather')[0].outerHTML;document.getElementsByClassName('myWeatherTop')[0].outerHTML='';document.getElementsByTagName('a')[0].outerHTML='';document.body.style='overflow:hidden;background-color:transparent';document.getElementsByTagName('div')[0].style='background-color:transparent';",false);
+        if (currentURL === "http://www.weather.com.cn/") {
+            weather[0].executeJavaScript("document.body.innerHTML=document.getElementsByClassName('myWeather')[0].outerHTML;document.getElementsByClassName('myWeatherTop')[0].outerHTML='';document.getElementsByTagName('a')[0].outerHTML='';document.body.style='overflow:hidden;background-color:transparent';document.getElementsByTagName('div')[0].style='background-color:transparent';", false);
         }
     });
 
@@ -128,8 +136,8 @@ window.onload = function() {
     const workframe = $("#workframe")
     workframe.on('did-navigate', function (event) {
         var currentURL = workframe[0].getURL();
-        if (currentURL.includes("/cas/login?")){
-            workframe[0].executeJavaScript("un.value='" + store.get("username") + "';pd.value='" + store.get("password") + "';rememberName.checked='checked';login()",false);
+        if (currentURL.includes("/cas/login?")) {
+            workframe[0].executeJavaScript("un.value='" + store.get("username") + "';pd.value='" + store.get("password") + "';rememberName.checked='checked';login()", false);
         }
     });
 
