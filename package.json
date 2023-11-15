@@ -20,8 +20,8 @@
   },
   "license": "ISC",
   "build": {
-    "appId": "shirai_kuroko.eda_network_status",
-    "productName": "DLUT-EDA校园网面板",
+    "appId": "shirai_kuroko.dluttoolbox-electron",
+    "productName": "DLUTToolBox-electron",
     "copyright": "Copyright © 2023 shirai_kuroko",
     "directories": {
       "buildResources": "build",
