@@ -1,7 +1,7 @@
 const Store = require('electron-store');
 const $ = require("jquery");
 const store = new Store();
-const { ipcRenderer } = require('electron')
+const {ipcRenderer} = require('electron')
 
 function load_class_table(num) {
     const requestData = {
@@ -72,7 +72,7 @@ function formatBytes(bytes) {
 // Function to update the table with data
 function updateTableForGeneral(data) {
     $('.general-network-table #onlineStatus').text(data.result === 1 ? '在线' : '离线');
-    if (data.result !== 1){
+    if (data.result !== 1) {
         return;
     }
     $('.general-network-table #account').text(data.uid);
@@ -107,7 +107,7 @@ function loadNetworkDataForGeneral() {
 // Function to update the table with data
 function updateTableForNetwork(data) {
     $('.network-table #_onlineStatus').text(data.result === 1 ? '在线' : '离线');
-    if (data.result !== 1){
+    if (data.result !== 1) {
         return;
     }
     $('.network-table #_account').text(data.uid);
@@ -180,26 +180,33 @@ window.onload = function () {
         }
     });
 
-    $(document).on('click', '.app-card', function() {
+    $(document).on('click', '.app-card', function () {
         const dataFunction = $(this).data('function');
 
         if (!dataFunction) {
             const dataSpecial = $(this).data('special');
-            if (!dataSpecial){
+            if (!dataSpecial) {
                 new Notification("功能暂未实现", {body: "敬请期待"}).onclick = () => console.log("")
             }
         } else {
-            ipcRenderer.send('openWindow',dataFunction)
+            ipcRenderer.send('openWindow', dataFunction)
         }
     });
 
-    $("#RefreshNetworkStatus").on('click',function () {
+    $("#RefreshNetworkStatus").on('click', function () {
         loadNetworkDataForGeneral()
         loadNetworkDataForNetwork()
         new Notification("刷新成功", {body: "校园网状态数据刷新成功！"}).onclick = () => console.log("")
     })
 
-    $("#NetworkConnect").on('click',function () {
+    $("#NetworkConnect").on('click', function () {
+        ipcRenderer.on('request-info-response', (event, response) => {
+            console.log('Response from main process:', response);
+            setTimeout(loadNetworkDataForGeneral, 2000)
+            setTimeout(loadNetworkDataForNetwork, 2000)
+            new Notification("连接执行完成", {body: "请检查网络是否可以使用"}).onclick = () => console.log("")
+        });
+
         $.get('http://172.20.30.1/drcom/chkstatus?callback=', async function (data) {
             data = "{" + data.split("({")[1].split("})")[0] + "}";
             data = JSON.parse(data);
@@ -216,7 +223,7 @@ window.onload = function () {
             const JSESSIONIDCAS = responseBody.split('action=\"/cas/login;JSESSIONIDCAS=')[1].split('?service=http')[0];
             const LT = responseBody.split('<input type="hidden" id="lt" name="lt" value="')[1].split('"')[0];
             const execution = responseBody.split('<input type="hidden" name="execution" value="')[1].split('"')[0];
-            const RSA = strEnc(store.get("username")+store.get("password")+LT,"1","2","3");
+            const RSA = strEnc(store.get("username") + store.get("password") + LT, "1", "2", "3");
             const formData = new URLSearchParams();
             formData.append('none', 'on');
             formData.append('rsa', RSA);
@@ -226,30 +233,27 @@ window.onload = function () {
             formData.append('lt', LT);
             formData.append('execution', execution);
             formData.append('_eventId', 'submit');
-            const postResponse = await fetch(loginURL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'Cookie': `cas_hash=; dlut_cas_un=${store.get("password")}; Language=zh_CN; JSESSIONIDCAS=${JSESSIONIDCAS}`,
-                },
-                body: formData,
-            });
-            const finalResponseBody = await postResponse.text();
-            console.log(finalResponseBody);
+            const headers = {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Cookie': `cas_hash=; dlut_cas_un=${store.get("password")}; Language=zh_CN; JSESSIONIDCAS=${JSESSIONIDCAS}`,
+            };
+
+            ipcRenderer.send('send-post-request-info', JSON.stringify({
+                loginURL: loginURL,
+                headers: headers,
+                formData: formData
+            }));
         });
-        setTimeout(loadNetworkDataForGeneral,2000)
-        setTimeout(loadNetworkDataForNetwork,2000)
-        new Notification("连接执行完成", {body: "请检查网络是否可以使用"}).onclick = () => console.log("")
     })
 
-    $("#NetworkDisconnect").on('click',function () {
+    $("#NetworkDisconnect").on('click', function () {
         $.get('http://172.20.30.1/drcom/chkstatus?callback=', function (data) {
             data = "{" + data.split("({")[1].split("})")[0] + "}";
             data = JSON.parse(data);
             fetch(`http://172.20.30.1:801/eportal/portal/logout?callback=&wlan_user_ip=${data.v4ip}`)
         });
-        setTimeout(loadNetworkDataForGeneral,2000)
-        setTimeout(loadNetworkDataForNetwork,2000)
+        setTimeout(loadNetworkDataForGeneral, 2000)
+        setTimeout(loadNetworkDataForNetwork, 2000)
         new Notification("注销执行完成", {body: "请检查网络是否不可以使用！"}).onclick = () => console.log("")
     })
 

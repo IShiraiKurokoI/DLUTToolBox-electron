@@ -41,6 +41,24 @@ app.whenReady().then(() => {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
     })
 
+    ipcMain.on('send-post-request-info', (event, requestInfo) => {
+        requestInfo =JSON.parse(requestInfo);
+        const { loginURL, headers, formData } = requestInfo;
+
+        fetch(loginURL, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(formData)
+        })
+            .then(response => {
+                console.log(response.text())
+            })
+            .catch(error => {
+                // 处理错误并发送回渲染进程
+                event.sender.send('request-info-response', { error: error.message });
+            });
+    });
+
     ipcMain.on('openWindow', (event, arg) => {
         const store = new Store();
         const childWin = new BrowserWindow({
