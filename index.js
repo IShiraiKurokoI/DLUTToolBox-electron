@@ -2,18 +2,21 @@ const { app, BrowserWindow, Menu} = require('electron')
 const path = require('path')
 const Store = require('electron-store');
 Store.initRenderer()
+
 function createWindow() {
     const mainWindow = new BrowserWindow({
         width: 1360,
         height: 720,
         icon: path.join(__dirname, 'icon.ico'),
+        thickFrame: true,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             webSecurity: false,
             contextIsolation: false,
             nodeIntegration: true,
             enableRemoteModule: true,
-            webviewTag:true
+            webviewTag:true,
+            experimentalFeatures: true
         }
     })
 
