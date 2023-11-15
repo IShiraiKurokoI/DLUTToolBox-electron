@@ -1,4 +1,4 @@
-const {app, BrowserWindow, Menu, globalShortcut, ipcMain} = require('electron')
+const {app, BrowserWindow, Menu, globalShortcut, ipcMain, clipboard} = require('electron')
 const path = require('path')
 const Store = require('electron-store');
 Store.initRenderer()
@@ -55,11 +55,58 @@ app.whenReady().then(() => {
                 webviewTag: true,
                 experimentalFeatures: true
             }
-        })
-        var funcnum = arg -1;
-        console.log(`load page:${functions[funcnum]}`)
-        childWin.loadURL(functions[funcnum])
-    })
+        });
+
+        // 加载页面
+        var funcnum = arg - 1;
+        console.log(`load page:${functions[funcnum]}`);
+        childWin.loadURL(functions[funcnum]);
+
+        // 创建菜单
+        const template = [
+            {
+                label: '前进',
+                click: () => {
+                    if (childWin.webContents.canGoForward()) {
+                        childWin.webContents.goForward();
+                    }
+                }
+            },
+            {
+                label: '后退',
+                click: () => {
+                    if (childWin.webContents.canGoBack()) {
+                        childWin.webContents.goBack();
+                    }
+                }
+            },
+            {
+                label: '刷新',
+                click: () => {
+                    childWin.webContents.reload();
+                }
+            },
+            {
+                label: '复制当前链接',
+                click: () => {
+                    const currentURL = childWin.webContents.getURL();
+                    clipboard.writeText(currentURL);
+                    //TODO: Notification
+                }
+            },
+            {
+                label: '开发者工具',
+                click: () => {
+                    childWin.webContents.openDevTools();
+                }
+            }
+        ];
+
+        const menu = Menu.buildFromTemplate(template);
+        Menu.setApplicationMenu(menu);
+    });
+
+
 })
 
 app.on('window-all-closed', function () {
