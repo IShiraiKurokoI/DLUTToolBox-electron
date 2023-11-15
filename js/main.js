@@ -72,6 +72,9 @@ function formatBytes(bytes) {
 // Function to update the table with data
 function updateTableForGeneral(data) {
     $('.general-network-table #onlineStatus').text(data.result === 1 ? '在线' : '离线');
+    if (data.result !== 1){
+        return;
+    }
     $('.general-network-table #account').text(data.uid);
     $('.general-network-table #name').text(data.NID);
     $('.general-network-table #ipAddress').text(data.v4ip);
@@ -104,6 +107,9 @@ function loadNetworkDataForGeneral() {
 // Function to update the table with data
 function updateTableForNetwork(data) {
     $('.network-table #_onlineStatus').text(data.result === 1 ? '在线' : '离线');
+    if (data.result !== 1){
+        return;
+    }
     $('.network-table #_account').text(data.uid);
     $('.network-table #_name').text(data.NID);
     $('.network-table #_ipAddress').text(data.v4ip);
@@ -194,7 +200,43 @@ window.onload = function () {
     })
 
     $("#NetworkConnect").on('click',function () {
-
+        $.get('http://172.20.30.1/drcom/chkstatus?callback=', async function (data) {
+            data = "{" + data.split("({")[1].split("})")[0] + "}";
+            data = JSON.parse(data);
+            var loginURL = `https://sso.dlut.edu.cn/cas/login?service=http%3A%2F%2F172.20.30.2%3A8080%2FSelf%2Fsso_login%3Fwlan_user_ip%3D${data.v4ip}%26authex_enable%3D%26type%3D1`;
+            const response = await fetch(loginURL, {
+                method: 'GET',
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36 Edg/111.0.1661.44',
+                },
+                timeout: 10000,
+                redirect: 'follow',
+            });
+            const responseBody = await response.text();
+            const JSESSIONIDCAS = responseBody.split('action=\"/cas/login;JSESSIONIDCAS=')[1].split('?service=http')[0];
+            const LT = responseBody.split('<input type="hidden" id="lt" name="lt" value="')[1].split('"')[0];
+            const execution = responseBody.split('<input type="hidden" name="execution" value="')[1].split('"')[0];
+            const RSA = strEnc(store.get("username")+store.get("password")+LT,"1","2","3");
+            const formData = new URLSearchParams();
+            formData.append('none', 'on');
+            formData.append('rsa', RSA);
+            formData.append('ul', store.get("username").length);
+            formData.append('pl', store.get("password").length);
+            formData.append('sl', '0');
+            formData.append('lt', LT);
+            formData.append('execution', execution);
+            formData.append('_eventId', 'submit');
+            const postResponse = await fetch(loginURL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Cookie': `cas_hash=; dlut_cas_un=${store.get("password")}; Language=zh_CN; JSESSIONIDCAS=${JSESSIONIDCAS}`,
+                },
+                body: formData,
+            });
+            const finalResponseBody = await postResponse.text();
+            console.log(finalResponseBody);
+        });
         setTimeout(loadNetworkDataForGeneral,2000)
         setTimeout(loadNetworkDataForNetwork,2000)
         new Notification("连接执行完成", {body: "请检查网络是否可以使用"}).onclick = () => console.log("")
