@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu} = require('electron')
+const {app, BrowserWindow, Menu, globalShortcut} = require('electron')
 const path = require('path')
 const Store = require('electron-store');
 Store.initRenderer()
@@ -15,24 +15,18 @@ function createWindow() {
             contextIsolation: false,
             nodeIntegration: true,
             enableRemoteModule: true,
-            webviewTag:true,
+            webviewTag: true,
             experimentalFeatures: true
         }
     })
 
     mainWindow.loadFile(path.join(__dirname, 'index.html'))
-    const template = [
-        {
-            label: '强制刷新',
-            role: 'forceReload' // 强制刷新页面
-        },{
-        label: '开发者工具',
-        click: () => {
-            mainWindow.webContents.openDevTools({ mode: 'detach' }); // 使用detach模式
-        }
-    }]
-    const menu = Menu.buildFromTemplate(template)
-    Menu.setApplicationMenu(menu)
+
+    Menu.setApplicationMenu(null)
+
+    globalShortcut.register('CommandOrControl+F12', () => {
+        mainWindow.webContents.openDevTools({mode: 'detach'});
+    });
 }
 
 app.whenReady().then(() => {
