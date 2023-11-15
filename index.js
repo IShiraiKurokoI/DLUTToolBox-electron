@@ -5,7 +5,7 @@ Store.initRenderer()
 
 const functions = [
     path.join(__dirname, 'monitor.html'),
-    ""
+    "https://sso.dlut.edu.cn/cas/login?service=http%3A%2F%2F172.20.30.2%3A8080%2FSelf%2Fsso_login%3Flogin_method%3D1"
 ]
 
 function createWindow() {
@@ -42,24 +42,31 @@ app.whenReady().then(() => {
     })
 
     ipcMain.on('openWindow', (event, arg) => {
+        const store = new Store();
         const childWin = new BrowserWindow({
             width: 1360,
             height: 720,
             icon: path.join(__dirname, 'icon.ico'),
-            thickFrame: true,
-            webPreferences: {
-                webSecurity: false,
-                contextIsolation: false,
-                nodeIntegration: true,
-                enableRemoteModule: true,
-                webviewTag: true,
-                experimentalFeatures: true
+            thickFrame: true
+        });
+
+        var funcnum = arg - 1;
+
+        childWin.webContents.on('did-finish-load', () => {
+            // 获取当前页面的URL
+            const currentURL = childWin.webContents.getURL();
+            console.log(`[Browser Page]Loaded page:${currentURL}`);
+            if (currentURL.includes("/cas/login?")) {
+                childWin.webContents.executeJavaScript("un.value='" + store.get("username") + "';pd.value='" + store.get("password") + "';rememberName.checked='checked';login()");
+            }
+            switch (funcnum){
+                default:
+                    break;
             }
         });
 
         // 加载页面
-        var funcnum = arg - 1;
-        console.log(`load page:${functions[funcnum]}`);
+        console.log(`[Browser Page]Load page:${functions[funcnum]}`);
         childWin.loadURL(functions[funcnum]);
 
         // 创建菜单
