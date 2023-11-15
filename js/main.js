@@ -101,6 +101,38 @@ function loadNetworkDataForGeneral() {
     });
 }
 
+// Function to update the table with data
+function updateTableForNetwork(data) {
+    $('.network-table #_onlineStatus').text(data.result === 1 ? '在线' : '离线');
+    $('.network-table #_account').text(data.uid);
+    $('.network-table #_name').text(data.NID);
+    $('.network-table #_ipAddress').text(data.v4ip);
+    $('.network-table #_macAddress').text(data.olmac.split(':').join('; '));
+    $('.network-table #_usedFlow').text(formatBytes(data.flow));
+    $('.network-table #_remainingFlow').text(formatBytes(data.olflow));
+    $('.network-table #_loginTime').text(data.etime);
+}
+
+function cleanTableForNetwork() {
+    $('.network-table #_onlineStatus').text('-');
+    $('.network-table #_account').text('-');
+    $('.network-table #_name').text('-');
+    $('.network-table #_ipAddress').text('-');
+    $('.network-table #_macAddress').text('-');
+    $('.network-table #_usedFlow').text('-');
+    $('.network-table #_remainingFlow').text('-');
+    $('.network-table #_loginTime').text('-');
+}
+
+function loadNetworkDataForNetwork() {
+    $.get('http://172.20.30.1/drcom/chkstatus?callback=', function (data) {
+        cleanTableForNetwork()
+        data = "{" + data.split("({")[1].split("})")[0] + "}";
+        data = JSON.parse(data);
+        updateTableForNetwork(data);
+    });
+}
+
 function loadEleinfo() {
     const url = 'https://api.m.dlut.edu.cn/oauth/authorize?client_id=19b32196decf419a&redirect_uri=https%3A%2F%2Fcard.m.dlut.edu.cn%2Fhomerj%2FopenRjOAuthPage&response_type=code&scope=base_api&state=weishao';
 
@@ -146,12 +178,22 @@ window.onload = function () {
         const dataFunction = $(this).data('function');
 
         if (!dataFunction) {
-            new Notification("功能暂未实现", {body: "敬请期待"}).onclick = () => console.log("")
+            const dataSpecial = $(this).data('special');
+            if (!dataSpecial){
+                new Notification("功能暂未实现", {body: "敬请期待"}).onclick = () => console.log("")
+            }
         } else {
             ipcRenderer.send('openWindow',dataFunction)
         }
     });
 
+    $("#RefreshNetworkStatus").on('click',function () {
+        loadNetworkDataForGeneral()
+        loadNetworkDataForNetwork()
+        new Notification("刷新成功", {body: "校园网状态数据刷新成功！"}).onclick = () => console.log("")
+    })
+
     load_class_table(store.get("username"))
     loadNetworkDataForGeneral()
+    loadNetworkDataForNetwork()
 };

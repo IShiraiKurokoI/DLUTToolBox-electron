@@ -184,7 +184,8 @@
             margin-left: 10px;
             border-radius: 10px;
         }
-        .class-table-container{
+
+        .class-table-container {
             padding: 0;
         }
 
@@ -194,7 +195,8 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
-        .table-custom th{
+
+        .table-custom th {
             text-align: center;
         }
 
@@ -210,22 +212,55 @@
             overflow: hidden;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
+
         .general-network-table th, .general-network-table td {
             border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
             user-select: none;
         }
-        #ipAddress{
+
+        #ipAddress {
             user-select: all;
         }
+
         .general-network-table th {
             background-color: #f2f2f2;
         }
+
         .general-network-table tr:nth-child(even) {
             background-color: #f2f2f2;
         }
+
         .general-network-table tr:hover {
+            background-color: #ddd;
+        }
+
+        .network-table table {
+            margin: 0 auto;
+            border-collapse: collapse;
+            width: auto;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .network-table th, .network-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            user-select: none;
+        }
+
+        .network-table th {
+            background-color: #f2f2f2;
+        }
+
+        .network-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .network-table tr:hover {
             background-color: #ddd;
         }
     </style>
@@ -356,7 +391,8 @@
                                     <!-- 数据将在这里渲染 -->
                                     </tbody>
                                 </table>
-                                <p id="no-classes-message" class="mt-3 text-center font-weight-bold" style="display: none;">今日无课</p>
+                                <p id="no-classes-message" class="mt-3 text-center font-weight-bold"
+                                   style="display: none;">今日无课</p>
                             </div>
                         </div>
                     </div>
@@ -377,7 +413,7 @@
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="card app-card">
+                    <div class="card app-card" data-function="2">
                         <img src="./icons/network/SelfService.png" class="card-img" alt="校园网自服务">
                         <div class="card-body">
                             <h5 class="card-title">校园网自服务</h5>
@@ -386,7 +422,7 @@
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="card app-card">
+                    <div class="card app-card" data-special="true">
                         <img src="./icons/network/Connect.png" class="card-img" alt="手动连接">
                         <div class="card-body">
                             <h5 class="card-title">手动连接</h5>
@@ -395,7 +431,7 @@
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="card app-card">
+                    <div class="card app-card" data-special="true">
                         <img src="./icons/network/Disconnect.png" class="card-img" alt="手动注销">
                         <div class="card-body">
                             <h5 class="card-title">手动注销</h5>
@@ -406,7 +442,7 @@
             </div>
             <div class="col">
                 <div class="col-md-3">
-                    <div class="card app-card">
+                    <div class="card app-card" data-special="true" id="RefreshNetworkStatus">
                         <img src="./icons/network/Refresh.png" class="card-img" alt="网络状态刷新">
                         <div class="card-body">
                             <h5 class="card-title">网络状态刷新</h5>
@@ -414,6 +450,42 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="col" style="margin-top: 60px">
+                <table class="network-table">
+                    <tr>
+                        <th>在线状态</th>
+                        <td id="_onlineStatus">-</td>
+                    </tr>
+                    <tr>
+                        <th>账号</th>
+                        <td id="_account">-</td>
+                    </tr>
+                    <tr>
+                        <th>姓名</th>
+                        <td id="_name">-</td>
+                    </tr>
+                    <tr>
+                        <th>IP地址</th>
+                        <td id="_ipAddress">-</td>
+                    </tr>
+                    <tr>
+                        <th>MAC地址</th>
+                        <td id="_macAddress">-</td>
+                    </tr>
+                    <tr>
+                        <th>已用流量</th>
+                        <td id="_usedFlow">-</td>
+                    </tr>
+                    <tr>
+                        <th>剩余流量</th>
+                        <td id="_remainingFlow">-</td>
+                    </tr>
+                    <tr>
+                        <th>上线时间</th>
+                        <td id="_loginTime">-</td>
+                    </tr>
+                </table>
             </div>
         </div>
         <div class="tab-pane fade app-pane" id="charge-tab-pane" role="tabpanel" aria-labelledby="network-tab"
