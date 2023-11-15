@@ -193,6 +193,24 @@ window.onload = function () {
         new Notification("刷新成功", {body: "校园网状态数据刷新成功！"}).onclick = () => console.log("")
     })
 
+    $("#NetworkConnect").on('click',function () {
+
+        setTimeout(loadNetworkDataForGeneral,2000)
+        setTimeout(loadNetworkDataForNetwork,2000)
+        new Notification("连接执行完成", {body: "请检查网络是否可以使用"}).onclick = () => console.log("")
+    })
+
+    $("#NetworkDisconnect").on('click',function () {
+        $.get('http://172.20.30.1/drcom/chkstatus?callback=', function (data) {
+            data = "{" + data.split("({")[1].split("})")[0] + "}";
+            data = JSON.parse(data);
+            fetch(`http://172.20.30.1:801/eportal/portal/logout?callback=&wlan_user_ip=${data.v4ip}`)
+        });
+        setTimeout(loadNetworkDataForGeneral,2000)
+        setTimeout(loadNetworkDataForNetwork,2000)
+        new Notification("注销执行完成", {body: "请检查网络是否不可以使用！"}).onclick = () => console.log("")
+    })
+
     load_class_table(store.get("username"))
     loadNetworkDataForGeneral()
     loadNetworkDataForNetwork()
