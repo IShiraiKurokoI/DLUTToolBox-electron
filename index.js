@@ -44,6 +44,11 @@ const functions = [
     "https://webvpn.dlut.edu.cn/http/57787a7876706e323032336b657940247d081017f305dd4aa659ee7694bf90694722/sso/login.jsp?filter=app&from=rj",
 ]
 
+if (process.platform === 'win32')
+{
+    app.setAppUserModelId("DLUTToolBox-electron");
+}
+
 function createWindow() {
     const mainWindow = new BrowserWindow({
         width: 1360,
