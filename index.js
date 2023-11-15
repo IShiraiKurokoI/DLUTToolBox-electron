@@ -30,6 +30,18 @@ const functions = [
     "https://webvpn.dlut.edu.cn/http/57787a7876706e323032336b657940246e1d1011fa1add59ab42fc399fbc81268a6c4637b8b16a7834/?filter=app&from=rj",
     "https://webvpn.dlut.edu.cn/https/57787a7876706e323032336b657940247f561519f2059240ad48fb2c90f5862810867b93/index.html?filter=app&from=rj",
     "https://webvpn.dlut.edu.cn/https/57787a7876706e323032336b657940246f0f1556ff0d9847e442ff2c/?filter=app&from=rj",
+    "https://webvpn.dlut.edu.cn/http/57787a7876706e323032336b6579402468190c56f80f865ae449fe2ddfb88b/cas?filter=app&from=rj",
+    "https://mail.dlut.edu.cn/",
+    "https://webvpn.dlut.edu.cn/http/57787a7876706e323032336b657940247c0d160bfd4d9742bf58b43d95aecb2487/cas?filter=app&from=rj",
+    "https://webvpn.dlut.edu.cn/https/57787a7876706e323032336b657940247c0d161fef4d9742bf58b43d95aecb24b7/pyxx/LoginCAS.aspx?a=1&filter=app&from=rj",
+    "https://webvpn.dlut.edu.cn/http/57787a7876706e323032336b657940247d1b030af8139257a749f42cdfbf89322e5e910d7a339f3b/?filter=app&from=rj",
+    "https://webvpn.dlut.edu.cn/https/57787a7876706e323032336b657940246817100cfd0fdd4aa659ee7694bf9069de28/sso/sso_zzxt.jsp?filter=app&from=rj",
+    "https://res.dlut.edu.cn/tp_cgp/view?m=cgp",
+    "https://webvpn.dlut.edu.cn/http/57787a7876706e323032336b657940247a1a1149b2079f5bbe02ff3c84f58629/?filter=app&from=rj",
+    "https://ehall.dlut.edu.cn/fp/s/QZMKMV?from=rj",
+    "https://webvpn.dlut.edu.cn/http/57787a7876706e323032336b6579402471150d17ff4d9742bf58b43d95aecb249a/sso/dlut?filter=app&from=rj",
+    "https://sso.dlut.edu.cn/cas/login?service=http%3A%2F%2Fjob.dlut.edu.cn%2FautoLogin",
+    "https://webvpn.dlut.edu.cn/http/57787a7876706e323032336b657940247d081017f305dd4aa659ee7694bf90694722/sso/login.jsp?filter=app&from=rj",
 ]
 
 function createWindow() {
@@ -193,6 +205,18 @@ app.whenReady().then(() => {
                 case 17:
                     if (currentURL.includes("/student/home")){
                         childWin.webContents.executeJavaScript("window.location.href='/student/for-std/lesson-search'")
+                    }
+                    break;
+                case 27:
+                    if (currentURL==="https://mail.dlut.edu.cn/"){
+                        //自动切换域名
+                        childWin.webContents.executeJavaScript("domain.value='mail.dlut.edu.cn';document.getElementsByClassName('domainTxt')[0].textContent = 'mail.dlut.edu.cn'")
+                    }
+                    break;
+                case 36:
+                    if (currentURL.includes("/autoLogin")){
+                        //修复无权限的bug
+                        childWin.webContents.executeJavaScript("window.location.href='https://job.dlut.edu.cn/login.html'")
                     }
                     break;
                 default:
