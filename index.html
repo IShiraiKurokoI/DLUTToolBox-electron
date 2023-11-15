@@ -201,6 +201,33 @@
         .table-custom th, .table-custom td {
             border: none;
         }
+
+        .general-network-table table {
+            margin: 0 auto;
+            border-collapse: collapse;
+            width: auto;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        .general-network-table th, .general-network-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            user-select: none;
+        }
+        #ipAddress{
+            user-select: all;
+        }
+        .general-network-table th {
+            background-color: #f2f2f2;
+        }
+        .general-network-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .general-network-table tr:hover {
+            background-color: #ddd;
+        }
     </style>
 </head>
 <body class="content">
@@ -271,11 +298,44 @@
                 <div id="info">
                     <div id="left-container">
                         <div id="top-left">
-                            <h2>校园网状态</h2>
-                            TBD
+                            <h5>校园网状态</h5>
+                            <table class="general-network-table">
+                                <tr>
+                                    <th>在线状态</th>
+                                    <td id="onlineStatus">-</td>
+                                </tr>
+                                <tr>
+                                    <th>账号</th>
+                                    <td id="account">-</td>
+                                </tr>
+                                <tr>
+                                    <th>姓名</th>
+                                    <td id="name">-</td>
+                                </tr>
+                                <tr>
+                                    <th>IP地址</th>
+                                    <td id="ipAddress">-</td>
+                                </tr>
+                                <tr>
+                                    <th>MAC地址</th>
+                                    <td id="macAddress">-</td>
+                                </tr>
+                                <tr>
+                                    <th>已用流量</th>
+                                    <td id="usedFlow">-</td>
+                                </tr>
+                                <tr>
+                                    <th>剩余流量</th>
+                                    <td id="remainingFlow">-</td>
+                                </tr>
+                                <tr>
+                                    <th>上线时间</th>
+                                    <td id="loginTime">-</td>
+                                </tr>
+                            </table>
                         </div>
                         <div id="bottom-left">
-                            <h2>寝室电费</h2>
+                            <h5>寝室电费</h5>
                             TBD
                         </div>
                     </div>

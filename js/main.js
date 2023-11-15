@@ -57,6 +57,47 @@ function load_class_table(num){
         });
 }
 
+function formatBytes(bytes) {
+    const kb = 1024;
+    const units = ['KB', 'MB', 'GB', 'TB'];
+    let i = 0;
+    while (bytes > kb) {
+        bytes /= kb;
+        i++;
+    }
+    return bytes.toFixed(2) + ' ' + units[i];
+}
+
+// Function to update the table with data
+function updateTableForGeneral(data) {
+    $('.general-network-table #onlineStatus').text(data.result === 1 ? '在线' : '离线');
+    $('.general-network-table #account').text(data.uid);
+    $('.general-network-table #name').text(data.NID);
+    $('.general-network-table #ipAddress').text(data.v4ip);
+    $('.general-network-table #macAddress').text(data.olmac.split(':').join('; '));
+    $('.general-network-table #usedFlow').text(formatBytes(data.flow));
+    $('.general-network-table #remainingFlow').text(formatBytes(data.olflow));
+    $('.general-network-table #loginTime').text(data.etime);
+}
+function cleanTableForGeneral() {
+    $('.general-network-table #onlineStatus').text('-');
+    $('.general-network-table #account').text('-');
+    $('.general-network-table #name').text('-');
+    $('.general-network-table #ipAddress').text('-');
+    $('.general-network-table #macAddress').text('-');
+    $('.general-network-table #usedFlow').text('-');
+    $('.general-network-table #remainingFlow').text('-');
+    $('.general-network-table #loginTime').text('-');
+}
+function loadNetworkDataForGeneral() {
+    $.get('http://172.20.30.1/drcom/chkstatus?callback=', function (data) {
+        cleanTableForGeneral()
+        data = "{" + data.split("({")[1].split("})")[0] + "}";
+        data = JSON.parse(data);
+        updateTableForGeneral(data);
+    });
+}
+
 window.onload = function() {
     $('#username').val(store.get("username"))
     $('#password').val(store.get("password"))
@@ -93,4 +134,5 @@ window.onload = function() {
     });
 
     load_class_table(store.get("username"))
+    loadNetworkDataForGeneral()
 };
