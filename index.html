@@ -144,7 +144,7 @@
             display: flex;
             padding: 10px;
             height: 100%;
-            flex-direction: column;
+            flex-direction: row;
         }
         #info-tab-pane > .col{
             width: 100%;
@@ -152,19 +152,32 @@
             flex-direction: column;
             align-content: end;
         }
-        #general-info{
+
+
+        #left-container {
             display: flex;
-            flex-direction: row;
-            flex: 1;
-            height: 50%;
-        }
-        #general-info > .row{
-            flex: 1;
+            flex-direction: column;
             width: 50%;
         }
-        #class-table{
+
+        #top-left {
             flex: 1;
-            height: 50%;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        #bottom-left {
+            flex: 1;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        #right-container {
+            flex: 1;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-left: 10px;
         }
     </style>
 </head>
@@ -234,16 +247,20 @@
              tabindex="0">
             <div class="col">
                 <div id="info">
-                    <div class="general-info">
-                        <div class="row">
-                            校园网状态
+                    <div id="left-container">
+                        <div id="top-left">
+                            <h2>校园网状态</h2>
+                            TBD
                         </div>
-                        <div class="row">
-                            寝室电费
+                        <div id="bottom-left">
+                            <h2>寝室电费</h2>
+                            TBD
                         </div>
                     </div>
-                    <div class="class-table">
-                        今日课表
+
+                    <div id="right-container">
+                        <h2>今日课表</h2>
+                        TBD
                     </div>
                 </div>
                 <webview id="weather" src="http://www.weather.com.cn"></webview>
