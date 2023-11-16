@@ -79,10 +79,10 @@ function createWindow() {
 app.whenReady().then(() => {
     const store = new Store();
     if (!store.get("username")){
-        console.log("无账号，进行第一次启动初始化")
-        const mainWindow = new BrowserWindow({
-            width: 1360,
-            height: 720,
+        console.log("first use init")
+        const loginWindow = new BrowserWindow({
+            width: 500,
+            height: 450,
             icon: path.join(__dirname, 'icon.ico'),
             thickFrame: true,
             webPreferences: {
@@ -96,7 +96,17 @@ app.whenReady().then(() => {
                 partition:"login_window"
             }
         })
-        mainWindow.loadFile(path.join(__dirname, 'login.html'))
+
+        ipcMain.on("complete",()=>{
+            loginWindow.close()
+            createWindow()
+        })
+
+        globalShortcut.register('CommandOrControl+F12', () => {
+            loginWindow.webContents.openDevTools({mode: 'detach'});
+        });
+
+        loginWindow.loadFile(path.join(__dirname, 'login.html'))
         Menu.setApplicationMenu(null)
     }else {
         createWindow()

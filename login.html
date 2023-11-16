@@ -2,9 +2,54 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DLUTToolBox 统一身份认证登录</title>
+    <script src="./js/jquery-3.6.0.min.js"></script>
+    <script src="./js/popper.min.js"></script>
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <script src="./js/bootstrap.min.js"></script>
 </head>
 <body>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title text-center mb-4">统一身份认证登录</h3>
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">学工号</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">密码</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">登录</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const Store = require('electron-store');
+    const store = new Store();
+    const $ = require("jquery");
+    const {ipcRenderer} = require('electron')
+    $(document).ready(function () {
+        // 监听表单提交
+        $('#loginForm').submit(function (e) {
+            e.preventDefault();
+            store.set('username', $('#username').val());
+            store.set('password', $('#password').val());
+            new Notification("配置保存成功", {body: "正在为您打开主界面！"}).onclick = () => console.log("")
+            ipcRenderer.send('complete')
+        });
+    });
+</script>
 
 </body>
 </html>
