@@ -165,6 +165,8 @@ window.onload = function () {
         event.preventDefault()
     });
 
+    //todo:fix these two webview
+
     const weather = document.getElementById("weather")
     weather.addEventListener('console-message', (e) => {
         console.log('weather page log: ', e.message)
