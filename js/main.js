@@ -161,11 +161,7 @@ window.onload = function () {
         store.set('password', $('#password').val());
         store.set('mail_username', $('#mail_username').val());
         store.set('mail_password', $('#mail_password').val());
-        const NOTIFICATION_TITLE = '保存成功'
-        const NOTIFICATION_BODY = '配置已经成功保存！'
-        new Notification(NOTIFICATION_TITLE, {body: NOTIFICATION_BODY}).onclick =
-            () => console.log("")
-
+        new Notification('保存成功', {body: '配置已经成功保存！'}).onclick =() => console.log("")
         event.preventDefault()
     });
 
