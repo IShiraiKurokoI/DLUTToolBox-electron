@@ -217,6 +217,7 @@ app.whenReady().then(() => {
                         childWin.webContents.executeJavaScript("window.location.href='/student/for-std/exam-delay-apply'")
                         new Notification({
                             title: "正在加载页面",
+                            icon: path.join(__dirname, 'icon.ico'),
                             body: "缓考系统加载较慢，请等待。。。"
                         }).show()
                     }
@@ -262,6 +263,7 @@ app.whenReady().then(() => {
                         }else {
                             new Notification({
                                 title: "⚠域名切换提示⚠",
+                                icon: path.join(__dirname, 'icon.ico'),
                                 body: "已经自动切换到mail.dlut.edu.cn域名下！"
                             }).show()
                         }
@@ -311,6 +313,7 @@ app.whenReady().then(() => {
                     clipboard.writeText(currentURL);
                     new Notification({
                         title: "复制成功！",
+                        icon: path.join(__dirname, 'icon.ico'),
                         body: "链接已经成功复制到剪贴板。"
                     }).show()
                 }

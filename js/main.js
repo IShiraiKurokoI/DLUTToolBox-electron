@@ -2,6 +2,7 @@ const Store = require('electron-store');
 const $ = require("jquery");
 const store = new Store();
 const {ipcRenderer} = require('electron')
+const path = require("path");
 
 function load_class_table(num) {
     const requestData = {
@@ -145,12 +146,15 @@ function loadEleinfo() {
     //todo:完成电费查看
 }
 
-function clearStore(){
+function clearStore() {
     store.delete("username")
     store.delete("password")
     store.delete("mail_username")
     store.delete("mail_password")
-    new Notification("删除成功", {body: "所有信息已经删除"}).onclick = () => console.log("")
+    new Notification("删除成功", {
+        icon: path.join(__dirname, 'icon.ico'),
+        body: "所有信息已经删除"
+    }).onclick = () => console.log("")
 }
 
 window.onload = function () {
@@ -163,7 +167,10 @@ window.onload = function () {
         store.set('password', $('#password').val());
         store.set('mail_username', $('#mail_username').val());
         store.set('mail_password', $('#mail_password').val());
-        new Notification('保存成功', {body: '配置已经成功保存！'}).onclick =() => console.log("")
+        new Notification('保存成功', {
+            icon: path.join(__dirname, 'icon.ico'),
+            body: '配置已经成功保存！'
+        }).onclick = () => console.log("")
         event.preventDefault()
     });
 
@@ -198,7 +205,10 @@ window.onload = function () {
         if (!dataFunction) {
             const dataSpecial = $(this).data('special');
             if (!dataSpecial) {
-                new Notification("功能暂未实现", {body: "敬请期待"}).onclick = () => console.log("")
+                new Notification("功能暂未实现", {
+                    icon: path.join(__dirname, 'icon.ico'),
+                    body: "敬请期待"
+                }).onclick = () => console.log("")
             }
         } else {
             ipcRenderer.send('openWindow', dataFunction)
@@ -208,7 +218,10 @@ window.onload = function () {
     $("#RefreshNetworkStatus").on('click', function () {
         loadNetworkDataForGeneral()
         loadNetworkDataForNetwork()
-        new Notification("刷新成功", {body: "校园网状态数据刷新成功！"}).onclick = () => console.log("")
+        new Notification("刷新成功", {
+            icon: path.join(__dirname, 'icon.ico'),
+            body: "校园网状态数据刷新成功！"
+        }).onclick = () => console.log("")
     })
 
     $("#NetworkConnect").on('click', function () {
@@ -217,7 +230,10 @@ window.onload = function () {
             console.log('Response from main process:', response);
             setTimeout(loadNetworkDataForGeneral, 2000)
             setTimeout(loadNetworkDataForNetwork, 2000)
-            new Notification("连接执行完成", {body: "请检查网络是否可以使用"}).onclick = () => console.log("")
+            new Notification("连接执行完成", {
+                icon: path.join(__dirname, 'icon.ico'),
+                body: "请检查网络是否可以使用"
+            }).onclick = () => console.log("")
         });
 
         $.get('http://172.20.30.1/drcom/chkstatus?callback=', async function (data) {
@@ -236,7 +252,10 @@ window.onload = function () {
         });
         setTimeout(loadNetworkDataForGeneral, 2000)
         setTimeout(loadNetworkDataForNetwork, 2000)
-        new Notification("注销执行完成", {body: "请检查网络是否不可以使用！"}).onclick = () => console.log("")
+        new Notification("注销执行完成", {
+            icon: path.join(__dirname, 'icon.ico'),
+            body: "请检查网络是否不可以使用！"
+        }).onclick = () => console.log("")
     })
 
     load_class_table(store.get("username"))
