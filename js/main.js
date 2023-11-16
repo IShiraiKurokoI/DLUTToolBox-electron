@@ -159,26 +159,30 @@ window.onload = function () {
         event.preventDefault()
     });
 
-
-    const weather = $("#weather")
-    weather.on('did-navigate', function (event) {
-        var currentURL = weather[0].getURL();
+    const weather = document.getElementById("weather")
+    weather.addEventListener('console-message', (e) => {
+        console.log('weather page log: ', e.message)
+    })
+    weather.addEventListener('dom-ready', (e) => {
+        var currentURL = e.target.getURL();
         if (currentURL.includes("cas/login?")) {
-            weather[0].executeJavaScript("un.value='" + store.get("username") + "';pd.value='" + store.get("password") + "';rememberName.checked='checked';login()", false);
+            e.target.executeJavaScript("un.value='" + store.get("username") + "';pd.value='" + store.get("password") + "';rememberName.checked='checked';login()", false);
         }
         if (currentURL === "http://www.weather.com.cn/") {
-            weather[0].executeJavaScript("document.body.innerHTML=document.getElementsByClassName('myWeather')[0].outerHTML;document.getElementsByClassName('myWeatherTop')[0].outerHTML='';document.getElementsByTagName('a')[0].outerHTML='';document.body.style='overflow:hidden;background-color:transparent';document.getElementsByTagName('div')[0].style='background-color:transparent';", false);
+            e.target.executeJavaScript("document.body.innerHTML=document.getElementsByClassName('myWeather')[0].outerHTML;document.getElementsByClassName('myWeatherTop')[0].outerHTML='';document.getElementsByTagName('a')[0].outerHTML='';document.body.style='overflow:hidden;background-color:transparent';document.getElementsByTagName('div')[0].style='background-color:transparent';", false);
         }
-    });
+    })
 
-
-    const workframe = $("#workframe")
-    workframe.on('did-navigate', function (event) {
-        var currentURL = workframe[0].getURL();
-        if (currentURL.includes("/cas/login?")) {
-            workframe[0].executeJavaScript("un.value='" + store.get("username") + "';pd.value='" + store.get("password") + "';rememberName.checked='checked';login()", false);
+    const work = document.getElementById("workframe")
+    work.addEventListener('console-message', (e) => {
+        console.log('work page log: ', e.message)
+    })
+    work.addEventListener('dom-ready', (e) => {
+        var currentURL = e.target.getURL();
+        if (currentURL.includes("cas/login?")) {
+            e.target.executeJavaScript("un.value='" + store.get("username") + "';pd.value='" + store.get("password") + "';rememberName.checked='checked';login()", false);
         }
-    });
+    })
 
     $(document).on('click', '.app-card', function () {
         const dataFunction = $(this).data('function');
