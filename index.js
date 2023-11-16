@@ -1,4 +1,4 @@
-const {app, BrowserWindow, Menu, globalShortcut, ipcMain, clipboard} = require('electron')
+const {app, BrowserWindow, Menu, globalShortcut, ipcMain, clipboard, Notification} = require('electron')
 const path = require('path')
 const Store = require('electron-store');
 Store.initRenderer()
@@ -210,6 +210,10 @@ app.whenReady().then(() => {
                 case 9:
                     if (currentURL.includes("/student/home")){
                         childWin.webContents.executeJavaScript("window.location.href='/student/for-std/exam-delay-apply'")
+                        new Notification({
+                            title: "正在加载页面",
+                            body: "缓考系统加载较慢，请等待。。。"
+                        }).show()
                     }
                     break;
                 case 10:
@@ -250,6 +254,11 @@ app.whenReady().then(() => {
                         var pd = store.get("mail_password")
                         if (un&&pd){
                             childWin.webContents.executeJavaScript(`uid.value='${un}';password.value='${pd}';document.getElementsByClassName('u-btn u-btn-primary submit j-submit')[0].click()`);
+                        }else {
+                            new Notification({
+                                title: "⚠域名切换提示⚠",
+                                body: "已经自动切换到mail.dlut.edu.cn域名下！"
+                            }).show()
                         }
                     }
                     break;
@@ -295,7 +304,10 @@ app.whenReady().then(() => {
                 click: () => {
                     const currentURL = childWin.webContents.getURL();
                     clipboard.writeText(currentURL);
-                    //TODO: Notification
+                    new Notification({
+                        title: "复制成功！",
+                        body: "链接已经成功复制到剪贴板。"
+                    }).show()
                 }
             },
             {
