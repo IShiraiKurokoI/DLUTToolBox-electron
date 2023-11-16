@@ -156,6 +156,8 @@ function clearStore(){
 window.onload = function () {
     $('#username').val(store.get("username"))
     $('#password').val(store.get("password"))
+    $('#mail_username').val(store.get("mail_username"))
+    $('#mail_password').val(store.get("mail_password"))
     $('#settings').on('submit', function (event) {
         store.set('username', $('#username').val());
         store.set('password', $('#password').val());
@@ -167,11 +169,10 @@ window.onload = function () {
 
     //todo:fix these two webview
 
-    const weather = document.getElementById("weather")
-    weather.addEventListener('console-message', (e) => {
+    $("#weather")[0].addEventListener('console-message', (e) => {
         console.log('weather page log: ', e.message)
     })
-    weather.addEventListener('dom-ready', (e) => {
+    $("#weather")[0].addEventListener('dom-ready', (e) => {
         var currentURL = e.target.getURL();
         if (currentURL.includes("cas/login?")) {
             e.target.executeJavaScript("un.value='" + store.get("username") + "';pd.value='" + store.get("password") + "';rememberName.checked='checked';login()", false);
@@ -181,11 +182,10 @@ window.onload = function () {
         }
     })
 
-    const work = document.getElementById("workframe")
-    work.addEventListener('console-message', (e) => {
+    $("#workframe")[0].addEventListener('console-message', (e) => {
         console.log('work page log: ', e.message)
     })
-    work.addEventListener('dom-ready', (e) => {
+    $("#workframe")[0].addEventListener('dom-ready', (e) => {
         var currentURL = e.target.getURL();
         if (currentURL.includes("cas/login?")) {
             e.target.executeJavaScript("un.value='" + store.get("username") + "';pd.value='" + store.get("password") + "';rememberName.checked='checked';login()", false);

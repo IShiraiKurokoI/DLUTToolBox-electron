@@ -98,6 +98,11 @@ app.whenReady().then(() => {
         })
 
         ipcMain.on("complete",()=>{
+            new Notification({
+                title: "保存成功",
+                icon: path.join(__dirname, 'icon.ico'),
+                body: "正在打开主界面，账户密码稍后可以在参数配置中更改"
+            }).show()
             loginWindow.close()
             createWindow()
         })
