@@ -63,9 +63,7 @@ function createWindow() {
             enableRemoteModule: true,
             webviewTag: true,
             experimentalFeatures: true,
-            webPreferences:{
-                partition:"browser_window"
-            },
+            partition:"browser_window"
         }
     })
 
@@ -79,7 +77,30 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
-    createWindow()
+    const store = new Store();
+    if (!store.get("username")){
+        console.log("无账号，进行第一次启动初始化")
+        const mainWindow = new BrowserWindow({
+            width: 1360,
+            height: 720,
+            icon: path.join(__dirname, 'icon.ico'),
+            thickFrame: true,
+            webPreferences: {
+                preload: path.join(__dirname, 'preload.js'),
+                webSecurity: false,
+                contextIsolation: false,
+                nodeIntegration: true,
+                enableRemoteModule: true,
+                webviewTag: true,
+                experimentalFeatures: true,
+                partition:"login_window"
+            }
+        })
+        mainWindow.loadFile(path.join(__dirname, 'login.html'))
+        Menu.setApplicationMenu(null)
+    }else {
+        createWindow()
+    }
 
     app.on('activate', function () {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
@@ -119,7 +140,6 @@ app.whenReady().then(() => {
 
     //服务窗口
     ipcMain.on('openWindow', (event, arg) => {
-        const store = new Store();
         const childWin = new BrowserWindow({
             width: 1360,
             height: 720,

@@ -145,6 +145,12 @@ function loadEleinfo() {
     //todo:完成电费查看
 }
 
+function clearStore(){
+    store.delete("username")
+    store.delete("password")
+    new Notification("删除成功", {body: "所有信息已经删除"}).onclick = () => console.log("")
+}
+
 window.onload = function () {
     $('#username').val(store.get("username"))
     $('#password').val(store.get("password"))
