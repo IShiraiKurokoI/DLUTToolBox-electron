@@ -148,6 +148,8 @@ function loadEleinfo() {
 function clearStore(){
     store.delete("username")
     store.delete("password")
+    store.delete("mail_username")
+    store.delete("mail_password")
     new Notification("删除成功", {body: "所有信息已经删除"}).onclick = () => console.log("")
 }
 
@@ -157,6 +159,8 @@ window.onload = function () {
     $('#settings').on('submit', function (event) {
         store.set('username', $('#username').val());
         store.set('password', $('#password').val());
+        store.set('mail_username', $('#mail_username').val());
+        store.set('mail_password', $('#mail_password').val());
         const NOTIFICATION_TITLE = '保存成功'
         const NOTIFICATION_BODY = '配置已经成功保存！'
         new Notification(NOTIFICATION_TITLE, {body: NOTIFICATION_BODY}).onclick =

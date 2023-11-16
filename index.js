@@ -246,6 +246,11 @@ app.whenReady().then(() => {
                     if (currentURL==="https://mail.dlut.edu.cn/"){
                         //自动切换域名
                         childWin.webContents.executeJavaScript("domain.value='mail.dlut.edu.cn';document.getElementsByClassName('domainTxt')[0].textContent = 'mail.dlut.edu.cn'")
+                        var un = store.get("mail_username")
+                        var pd = store.get("mail_password")
+                        if (un&&pd){
+                            childWin.webContents.executeJavaScript(`uid.value='${un}';password.value='${pd}';document.getElementsByClassName('u-btn u-btn-primary submit j-submit')[0].click()`);
+                        }
                     }
                     break;
                 case 36:
