@@ -1,7 +1,10 @@
 const {app, BrowserWindow, Menu, globalShortcut, ipcMain, clipboard, Notification} = require('electron')
 const path = require('path')
 const Store = require('electron-store');
+const url = require("url");
 Store.initRenderer()
+
+const store = new Store();
 
 const functions = [
     path.join(__dirname, 'monitor.html'),
@@ -69,6 +72,20 @@ function createWindow() {
 
     mainWindow.loadFile(path.join(__dirname, 'index.html'))
 
+    mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+        creteWindowForUrl(url)
+        return { action: 'deny' }
+    })
+
+    mainWindow.webContents.on('did-attach-webview', (event, wc) => {
+        wc.setWindowOpenHandler((details) => {
+            console.log(`[main window] open new window${url}`)
+            creteWindowForUrl(details.url)
+            return { action: 'deny' }
+        })
+    })
+
+
     Menu.setApplicationMenu(null)
 
     globalShortcut.register('CommandOrControl+F12', () => {
@@ -76,8 +93,80 @@ function createWindow() {
     });
 }
 
+function creteWindowForUrl(url){
+    const childWinb = new BrowserWindow({
+        width: 1360,
+        height: 720,
+        icon: path.join(__dirname, 'icon.ico'),
+        thickFrame: true
+    });
+    childWinb.webContents.on('did-finish-load', () => {
+        // 获取当前页面的URL
+        const currentURL = childWinb.webContents.getURL();
+        console.log(`[Browser Page]Loaded page:${currentURL}`);
+        //自动登录
+        if (currentURL.includes("/cas/login?")) {
+            childWinb.webContents.executeJavaScript("un.value='" + store.get("username") + "';pd.value='" + store.get("password") + "';rememberName.checked='checked';login()");
+        }
+        if (currentURL.includes("api.m.dlut.edu.cn/login?")){
+            childWinb.webContents.executeJavaScript("username.value='" + store.get("username") + "';password.value='" + store.get("password") + "';btnpc.disabled='';btnpc.click()");
+        }
+    });
+    // 加载页面
+    console.log(`[Browser Page]Load page:${url}`);
+    childWinb.webContents.setWindowOpenHandler(({ url }) => {
+        creteWindowForUrl(url)
+        return { action: 'deny' }
+    })
+    childWinb.loadURL(url);
+    // 创建菜单
+    const template = [
+        {
+            label: '前进',
+            click: () => {
+                if (childWinb.webContents.canGoForward()) {
+                    childWinb.webContents.goForward();
+                }
+            }
+        },
+        {
+            label: '后退',
+            click: () => {
+                if (childWinb.webContents.canGoBack()) {
+                    childWinb.webContents.goBack();
+                }
+            }
+        },
+        {
+            label: '刷新',
+            click: () => {
+                childWinb.webContents.reload();
+            }
+        },
+        {
+            label: '复制当前链接',
+            click: () => {
+                const currentURL = childWinb.webContents.getURL();
+                clipboard.writeText(currentURL);
+                new Notification({
+                    title: "复制成功！",
+                    icon: path.join(__dirname, 'icon.ico'),
+                    body: "链接已经成功复制到剪贴板。"
+                }).show()
+            }
+        },
+        {
+            label: '开发者工具',
+            click: () => {
+                childWinb.webContents.openDevTools();
+            }
+        }
+    ];
+    const menu = Menu.buildFromTemplate(template);
+    childWinb.setMenu(menu)
+}
+
 app.whenReady().then(() => {
-    const store = new Store();
     if (!store.get("username")){
         console.log("first use init")
         const loginWindow = new BrowserWindow({
@@ -123,7 +212,6 @@ app.whenReady().then(() => {
 
     //处理校园网登陆
     ipcMain.on('network_login', (event, loginURL) => {
-        const store = new Store();
         const childWin = new BrowserWindow({
             width: 200,
             height: 100,
@@ -281,6 +369,12 @@ app.whenReady().then(() => {
         });
         // 加载页面
         console.log(`[Browser Page]Load page:${functions[funcnum]}`);
+
+        childWin.webContents.setWindowOpenHandler(({ url }) => {
+            creteWindowForUrl(url)
+            return { action: 'deny' }
+        })
+
         childWin.loadURL(functions[funcnum]);
         // 创建菜单
         const template = [
