@@ -7,6 +7,7 @@ function send(eleinfo) {
         if (data && data.success) {
             var data1 = data.resultData;
             if ("E001" == $("#factorycode").val() || "E002" == $("#factorycode").val()) {
+                console.warn('start')
                 $("#roombalance").val(dkywcommon.fenToYuan(dkywcommon.yuanToFen(data1.sydl)));
                 electronApi.post(dkywcommon.fenToYuan(dkywcommon.yuanToFen(data1.sydl)));
             } else if ("E003" == $("#factorycode").val()) {
@@ -14,6 +15,7 @@ function send(eleinfo) {
                 var sylds = syld.split("/");
                 var room = sylds[0];
                 var living = sylds[1];
+                console.warn('start')
                 $("#roombalance").val("房间：" + parseInt(room) + "，客厅：" + parseInt(living));
                 electronApi.post("房间：" + parseInt(room) + "，客厅：" + parseInt(living));
             }

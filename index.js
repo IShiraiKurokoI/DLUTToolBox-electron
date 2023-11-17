@@ -1,4 +1,4 @@
-const {app, BrowserWindow, Menu, globalShortcut, ipcMain, clipboard, Notification,BrowserView} = require('electron')
+const {app, BrowserWindow, Menu, globalShortcut, ipcMain, clipboard, Notification, BrowserView} = require('electron')
 const path = require('path')
 const Store = require('electron-store');
 const url = require("url");
@@ -48,8 +48,7 @@ const functions = [
     "https://webvpn.dlut.edu.cn/http/57787a7876706e323032336b657940247d081017f305dd4aa659ee7694bf90694722/sso/login.jsp?filter=app&from=rj",
 ]
 
-if (process.platform === 'win32')
-{
+if (process.platform === 'win32') {
     app.setAppUserModelId("DLUTToolBox-electron");
 }
 
@@ -67,22 +66,22 @@ function createWindow() {
             enableRemoteModule: true,
             webviewTag: true,
             experimentalFeatures: true,
-            partition:"browser_window"
+            partition: "browser_window"
         }
     })
 
     mainWindow.loadFile(path.join(__dirname, 'index.html'))
 
-    mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    mainWindow.webContents.setWindowOpenHandler(({url}) => {
         creteWindowForUrl(url)
-        return { action: 'deny' }
+        return {action: 'deny'}
     })
 
     mainWindow.webContents.on('did-attach-webview', (event, wc) => {
         wc.setWindowOpenHandler((details) => {
             console.log(`[main window] open new window${url}`)
             creteWindowForUrl(details.url)
-            return { action: 'deny' }
+            return {action: 'deny'}
         })
     })
 
@@ -94,7 +93,7 @@ function createWindow() {
     });
 }
 
-function creteWindowForUrl(url){
+function creteWindowForUrl(url) {
     const childWinb = new BrowserWindow({
         width: 1360,
         height: 720,
@@ -109,15 +108,15 @@ function creteWindowForUrl(url){
         if (currentURL.includes("/cas/login?")) {
             childWinb.webContents.executeJavaScript("un.value='" + store.get("username") + "';pd.value='" + store.get("password") + "';rememberName.checked='checked';login()");
         }
-        if (currentURL.includes("api.m.dlut.edu.cn/login?")){
+        if (currentURL.includes("api.m.dlut.edu.cn/login?")) {
             childWinb.webContents.executeJavaScript("username.value='" + store.get("username") + "';password.value='" + store.get("password") + "';btnpc.disabled='';btnpc.click()");
         }
     });
     // 加载页面
     console.log(`[Browser Page]Load page:${url}`);
-    childWinb.webContents.setWindowOpenHandler(({ url }) => {
+    childWinb.webContents.setWindowOpenHandler(({url}) => {
         creteWindowForUrl(url)
-        return { action: 'deny' }
+        return {action: 'deny'}
     })
     childWinb.loadURL(url);
     // 创建菜单
@@ -178,34 +177,33 @@ app.whenReady().then(() => {
         const childWin = new BrowserWindow({
             width: 200,
             height: 100,
-            show:false,
-            webPreferences:{
-                preload:path.join(__dirname, 'js/preload_ele.js'),
-                partition:"query_eleinfo",
+            show: false,
+            webPreferences: {
+                preload: path.join(__dirname, 'js/preload_ele.js'),
+                partition: "query_eleinfo",
                 webSecurity: false,
-                nodeIntegration:true
+                nodeIntegration: true
             },
             icon: path.join(__dirname, 'icon.ico')
         });
 
         ipcMain.on('message', (event, arg) => {
-            baseevent.sender.send("query_eleinfo",arg)
+            baseevent.sender.send("query_eleinfo", arg)
             childWin.close()
         });
 
-        childWin.webContents.userAgent="weishao"
-
+        childWin.webContents.userAgent = "weishao"
 
         childWin.webContents.on('dom-ready', () => {
             const currentURL = childWin.webContents.getURL();
-            if (currentURL.includes("api.m.dlut.edu.cn/login?")){
+            if (currentURL.includes("api.m.dlut.edu.cn/login?")) {
                 childWin.webContents.executeJavaScript("username.value='" + store.get("username") + "';password.value='" + store.get("password") + "';btnpc.disabled='';btnpc.click()");
             }
             if (currentURL.includes("homerj") && !currentURL.includes("api")) {
                 childWin.webContents.executeJavaScript("window.location.href='https://card.m.dlut.edu.cn/elepay/openElePay?openid='+openid[0].value+'&displayflag=1&id=30'");
             }
             if (currentURL.includes("openElePay")) {
-                const queryScriptPath = 'js/query.js';
+                const queryScriptPath = path.join(__dirname, 'js/query.js');
                 fs.readFile(queryScriptPath, 'utf-8', (err, data) => {
                     if (err) {
                         console.error("Error reading query.js:", err);
@@ -221,8 +219,7 @@ app.whenReady().then(() => {
     });
 
 
-
-    if (!store.get("username")){
+    if (!store.get("username")) {
         console.log("first use init")
         const loginWindow = new BrowserWindow({
             width: 500,
@@ -237,11 +234,11 @@ app.whenReady().then(() => {
                 enableRemoteModule: true,
                 webviewTag: true,
                 experimentalFeatures: true,
-                partition:"login_window"
+                partition: "login_window"
             }
         })
 
-        ipcMain.on("complete",()=>{
+        ipcMain.on("complete", () => {
             new Notification({
                 title: "保存成功",
                 icon: path.join(__dirname, 'icon.ico'),
@@ -257,7 +254,7 @@ app.whenReady().then(() => {
 
         loginWindow.loadFile(path.join(__dirname, 'login.html'))
         Menu.setApplicationMenu(null)
-    }else {
+    } else {
         createWindow()
     }
 
@@ -270,9 +267,9 @@ app.whenReady().then(() => {
         const childWin = new BrowserWindow({
             width: 200,
             height: 100,
-            show:false,
-            webPreferences:{
-                partition:"network_login"
+            show: false,
+            webPreferences: {
+                partition: "network_login"
             },
             icon: path.join(__dirname, 'icon.ico'),
             thickFrame: true
@@ -284,7 +281,7 @@ app.whenReady().then(() => {
                 childWin.webContents.executeJavaScript("un.value='" + store.get("username") + "';pd.value='" + store.get("password") + "';rememberName.checked='checked';login()");
             }
             if (currentURL.includes("/Self/dashboard")) {
-                childWin.webContents.session.clearStorageData([],function (data) {
+                childWin.webContents.session.clearStorageData([], function (data) {
                     console.log(data);
                 })
                 event.sender.send('network_login', "login done");
@@ -306,14 +303,14 @@ app.whenReady().then(() => {
         });
         var funcnum = arg - 1;
         //特殊设置
-        switch (funcnum){
+        switch (funcnum) {
             case 2:
-                childWin.setSize(400,700)
+                childWin.setSize(400, 700)
                 childWin.center()
-                childWin.webContents.userAgent="Mozilla/5.0 (Linux; Android 10; EBG-AN00 Build/HUAWEIEBG-AN00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/83.0.4103.106 Mobile Safari/537.36 weishao(3.2.2.74627)"
+                childWin.webContents.userAgent = "Mozilla/5.0 (Linux; Android 10; EBG-AN00 Build/HUAWEIEBG-AN00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/83.0.4103.106 Mobile Safari/537.36 weishao(3.2.2.74627)"
                 break;
             case 12:
-                childWin.setSize(400,700)
+                childWin.setSize(400, 700)
                 childWin.center()
                 break;
             default:
@@ -327,36 +324,36 @@ app.whenReady().then(() => {
             if (currentURL.includes("/cas/login?")) {
                 childWin.webContents.executeJavaScript("un.value='" + store.get("username") + "';pd.value='" + store.get("password") + "';rememberName.checked='checked';login()");
             }
-            if (currentURL.includes("api.m.dlut.edu.cn/login?")){
+            if (currentURL.includes("api.m.dlut.edu.cn/login?")) {
                 childWin.webContents.executeJavaScript("username.value='" + store.get("username") + "';password.value='" + store.get("password") + "';btnpc.disabled='';btnpc.click()");
             }
             //特殊处理
-            switch (funcnum){
+            switch (funcnum) {
                 case 2:
-                    if (currentURL.includes("https://card.m.dlut.edu.cn/virtualcard/openVirtualcard?")){
+                    if (currentURL.includes("https://card.m.dlut.edu.cn/virtualcard/openVirtualcard?")) {
                         childWin.webContents.executeJavaScript("document.getElementsByClassName('code')[0].className=''")
                     }
                     break;
                 case 6:
-                    if (currentURL.includes("/student/home")){
+                    if (currentURL.includes("/student/home")) {
                         childWin.webContents.executeJavaScript("window.location.href='/student/for-std/course-select'")
                     }
-                    if (currentURL.includes("for-std/course-select")){
+                    if (currentURL.includes("for-std/course-select")) {
                         childWin.webContents.executeJavaScript("var num=document.getElementsByClassName('get-into').length;for(i = 0; i < num; i++){document.getElementsByClassName('get-into')[i].target = '_blank'}")
                     }
                     break;
                 case 7:
-                    if (currentURL.includes("/student/home")){
+                    if (currentURL.includes("/student/home")) {
                         childWin.webContents.executeJavaScript("window.location.href='/student/for-std/evaluation/summative'")
                     }
                     break;
                 case 8:
-                    if (currentURL.includes("/student/home")){
+                    if (currentURL.includes("/student/home")) {
                         childWin.webContents.executeJavaScript("window.location.href='/student/for-std/exam-arrange'")
                     }
                     break;
                 case 9:
-                    if (currentURL.includes("/student/home")){
+                    if (currentURL.includes("/student/home")) {
                         childWin.webContents.executeJavaScript("window.location.href='/student/for-std/exam-delay-apply'")
                         new Notification({
                             title: "正在加载页面",
@@ -366,44 +363,44 @@ app.whenReady().then(() => {
                     }
                     break;
                 case 10:
-                    if (currentURL.includes("/student/home")){
+                    if (currentURL.includes("/student/home")) {
                         childWin.webContents.executeJavaScript("window.location.href='/student/for-std/grade/sheet'")
                     }
                     break;
                 case 11:
-                    if (currentURL.includes("/student/home")){
+                    if (currentURL.includes("/student/home")) {
                         childWin.webContents.executeJavaScript("window.location.href='/student/for-std/course-select-apply'")
                     }
                     break;
                 case 13:
-                    if (currentURL.includes("/student/home")){
+                    if (currentURL.includes("/student/home")) {
                         childWin.webContents.executeJavaScript("window.location.href='/student/for-std/course-table'")
                     }
                     break;
                 case 14:
-                    if (currentURL.includes("/student/home")){
+                    if (currentURL.includes("/student/home")) {
                         childWin.webContents.executeJavaScript("window.location.href='/student/for-std/adminclass-course-table'")
                     }
                     break;
                 case 15:
-                    if (currentURL.includes("/student/home")){
+                    if (currentURL.includes("/student/home")) {
                         childWin.webContents.executeJavaScript("window.location.href='/student/for-std/program-completion-preview'")
                     }
                     break;
                 case 17:
-                    if (currentURL.includes("/student/home")){
+                    if (currentURL.includes("/student/home")) {
                         childWin.webContents.executeJavaScript("window.location.href='/student/for-std/lesson-search'")
                     }
                     break;
                 case 27:
-                    if (currentURL==="https://mail.dlut.edu.cn/"){
+                    if (currentURL === "https://mail.dlut.edu.cn/") {
                         //自动切换域名
                         childWin.webContents.executeJavaScript("domain.value='mail.dlut.edu.cn';document.getElementsByClassName('domainTxt')[0].textContent = 'mail.dlut.edu.cn'")
                         var un = store.get("mail_username")
                         var pd = store.get("mail_password")
-                        if (un&&pd){
+                        if (un && pd) {
                             childWin.webContents.executeJavaScript(`uid.value='${un}';password.value='${pd}';document.getElementsByClassName('u-btn u-btn-primary submit j-submit')[0].click()`);
-                        }else {
+                        } else {
                             new Notification({
                                 title: "⚠域名切换提示⚠",
                                 icon: path.join(__dirname, 'icon.ico'),
@@ -413,7 +410,7 @@ app.whenReady().then(() => {
                     }
                     break;
                 case 36:
-                    if (currentURL.includes("/autoLogin")){
+                    if (currentURL.includes("/autoLogin")) {
                         //修复无权限的bug
                         childWin.webContents.executeJavaScript("window.location.href='https://job.dlut.edu.cn/login.html'")
                     }
@@ -425,9 +422,9 @@ app.whenReady().then(() => {
         // 加载页面
         console.log(`[Browser Page]Load page:${functions[funcnum]}`);
 
-        childWin.webContents.setWindowOpenHandler(({ url }) => {
+        childWin.webContents.setWindowOpenHandler(({url}) => {
             creteWindowForUrl(url)
-            return { action: 'deny' }
+            return {action: 'deny'}
         })
 
         childWin.loadURL(functions[funcnum]);
