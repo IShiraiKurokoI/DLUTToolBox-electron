@@ -109,7 +109,7 @@ function creteWindowForUrl(url) {
             childWinb.webContents.executeJavaScript("un.value='" + store.get("username") + "';pd.value='" + store.get("password") + "';rememberName.checked='checked';login()");
         }
         if (currentURL.includes("api.m.dlut.edu.cn/login?")) {
-            childWinb.webContents.executeJavaScript("username.value='" + store.get("username") + "';password.value='" + store.get("password") + "';btnpc.disabled='';btnpc.click()");
+            childWinb.webContents.executeJavaScript("username.value='" + store.get("username") + "';password.value='" + store.get("password") + "';try{btnpc.disabled='';btnpc.click()}catch(e){submit.disabled='';submit.click()}");
         }
     });
     // 加载页面
@@ -201,7 +201,7 @@ app.whenReady().then(() => {
         childWinc.webContents.on('dom-ready', () => {
             const currentURL = childWinc.webContents.getURL();
             if (currentURL.includes("api.m.dlut.edu.cn/login?")) {
-                childWinc.webContents.executeJavaScript("username.value='" + store.get("username") + "';password.value='" + store.get("password") + "';btnpc.disabled='';btnpc.click()");
+                childWinc.webContents.executeJavaScript("username.value='" + store.get("username") + "';password.value='" + store.get("password") + "';try{btnpc.disabled='';btnpc.click()}catch(e){submit.disabled='';submit.click()}");
             }
             if (currentURL.includes("homerj") && !currentURL.includes("api")) {
                 childWinc.webContents.executeJavaScript("window.location.href='https://card.m.dlut.edu.cn/elepay/openElePay?openid='+openid[0].value+'&displayflag=1&id=30'");
@@ -329,7 +329,7 @@ app.whenReady().then(() => {
                 childWin.webContents.executeJavaScript("un.value='" + store.get("username") + "';pd.value='" + store.get("password") + "';rememberName.checked='checked';login()");
             }
             if (currentURL.includes("api.m.dlut.edu.cn/login?")) {
-                childWin.webContents.executeJavaScript("username.value='" + store.get("username") + "';password.value='" + store.get("password") + "';btnpc.disabled='';btnpc.click()");
+                childWin.webContents.executeJavaScript("username.value='" + store.get("username") + "';password.value='" + store.get("password") + "';try{btnpc.disabled='';btnpc.click()}catch(e){submit.disabled='';submit.click()}");
             }
             //特殊处理
             switch (funcnum) {
