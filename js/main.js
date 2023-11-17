@@ -142,6 +142,7 @@ function loadNetworkDataForNetwork() {
 
 function loadEleinfo(notification) {
     var ele = $(".eleinfo")
+    ele.empty()
     ele.append("<p>正在加载电费数据。。。。</p>")
     ipcRenderer.on('query_eleinfo', (event, response) => {
         ele.empty()

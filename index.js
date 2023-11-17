@@ -169,12 +169,12 @@ function creteWindowForUrl(url) {
 app.whenReady().then(() => {
     //查询电费
     ipcMain.on('query_eleinfo', (baseevent) => {
-        const currentHour = new Date().getHours();
+        let currentHour = new Date().getHours();
         if (currentHour >= 23 || currentHour < 1) {
             baseevent.sender.send('query_eleinfo', "⚠当前不在电费查询时间段⚠");
             return;
         }
-        const childWin = new BrowserWindow({
+        let childWinc = new BrowserWindow({
             width: 200,
             height: 100,
             show: false,
@@ -189,18 +189,22 @@ app.whenReady().then(() => {
 
         ipcMain.on('message', (event, arg) => {
             baseevent.sender.send("query_eleinfo", arg)
-            childWin.close()
+            try {
+                childWinc.close()
+            }catch (e){
+
+            }
         });
 
-        childWin.webContents.userAgent = "weishao"
+        childWinc.webContents.userAgent = "weishao"
 
-        childWin.webContents.on('dom-ready', () => {
-            const currentURL = childWin.webContents.getURL();
+        childWinc.webContents.on('dom-ready', () => {
+            const currentURL = childWinc.webContents.getURL();
             if (currentURL.includes("api.m.dlut.edu.cn/login?")) {
-                childWin.webContents.executeJavaScript("username.value='" + store.get("username") + "';password.value='" + store.get("password") + "';btnpc.disabled='';btnpc.click()");
+                childWinc.webContents.executeJavaScript("username.value='" + store.get("username") + "';password.value='" + store.get("password") + "';btnpc.disabled='';btnpc.click()");
             }
             if (currentURL.includes("homerj") && !currentURL.includes("api")) {
-                childWin.webContents.executeJavaScript("window.location.href='https://card.m.dlut.edu.cn/elepay/openElePay?openid='+openid[0].value+'&displayflag=1&id=30'");
+                childWinc.webContents.executeJavaScript("window.location.href='https://card.m.dlut.edu.cn/elepay/openElePay?openid='+openid[0].value+'&displayflag=1&id=30'");
             }
             if (currentURL.includes("openElePay")) {
                 const queryScriptPath = path.join(__dirname, 'js/query.js');
@@ -210,12 +214,12 @@ app.whenReady().then(() => {
                         return;
                     }
                     // 执行外部文件内容
-                    childWin.webContents.executeJavaScript(data);
+                    childWinc.webContents.executeJavaScript(data);
                 });
             }
         });
 
-        childWin.loadURL("https://api.m.dlut.edu.cn/oauth/authorize?client_id=19b32196decf419a&redirect_uri=https%3A%2F%2Fcard.m.dlut.edu.cn%2Fhomerj%2FopenRjOAuthPage&response_type=code&scope=base_api&state=weishao");
+        childWinc.loadURL("https://api.m.dlut.edu.cn/oauth/authorize?client_id=19b32196decf419a&redirect_uri=https%3A%2F%2Fcard.m.dlut.edu.cn%2Fhomerj%2FopenRjOAuthPage&response_type=code&scope=base_api&state=weishao");
     });
 
 
