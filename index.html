@@ -175,6 +175,18 @@
             border-radius: 10px;
         }
 
+        #charge-tab-pane > .before-eleinfo {
+            height: 75%;
+        }
+
+        #charge-tab-pane > .ele-eleinfo {
+            height: 20%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            width: 40%;
+            border-radius: 10px;
+        }
+
         #right-container {
             flex: 1;
             border: 1px solid #ccc;
@@ -374,7 +386,9 @@
                         </div>
                         <div id="bottom-left">
                             <h5>寝室电费</h5>
-                            TBD
+                            <div class="eleinfo">
+
+                            </div>
                         </div>
                     </div>
 
@@ -491,9 +505,9 @@
                 </table>
             </div>
         </div>
-        <div class="tab-pane fade app-pane" id="charge-tab-pane" role="tabpanel" aria-labelledby="network-tab"
+        <div class="tab-pane fade app-pane" id="charge-tab-pane" role="tabpanel" aria-labelledby="charge-tab"
              tabindex="0">
-            <div class="col">
+            <div class="col before-eleinfo">
                 <div class="col-md-3">
                     <div class="card app-card" data-function="3">
                         <img src="./icons/charge/Ecard.png" class="card-img" alt="玉兰卡">
@@ -513,7 +527,7 @@
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="card app-card">
+                    <div class="card app-card" data-special="true" id="RefreshEleinfo">
                         <img src="./icons/charge/Refresh.png" class="card-img" alt="刷新电费数据">
                         <div class="card-body">
                             <h5 class="card-title">刷新电费数据</h5>
@@ -522,12 +536,14 @@
                     </div>
                 </div>
             </div>
-            <div class="col" style="margin-top: 60px">
+            <div class="row ele-eleinfo" >
                 <h5>寝室电费</h5>
-                TBD
+                <div class="eleinfo">
+
+                </div>
             </div>
         </div>
-        <div class="tab-pane fade app-pane" id="exam-tab-pane" role="tabpanel" aria-labelledby="network-tab"
+        <div class="tab-pane fade app-pane" id="exam-tab-pane" role="tabpanel" aria-labelledby="exam-tab"
              tabindex="0">
             <div class="col">
                 <div class="col-md-3">
@@ -606,7 +622,7 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade app-pane" id="study-tab-pane" role="tabpanel" aria-labelledby="network-tab"
+        <div class="tab-pane fade app-pane" id="study-tab-pane" role="tabpanel" aria-labelledby="study-tab"
              tabindex="0">
             <div class="col">
                 <div class="col-md-3">
@@ -685,7 +701,7 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade app-pane" id="work-tab-pane" role="tabpanel" aria-labelledby="network-tab"
+        <div class="tab-pane fade app-pane" id="work-tab-pane" role="tabpanel" aria-labelledby="work-tab"
              tabindex="0">
             <webview id="workframe"
                      src="https://webvpn.dlut.edu.cn/https/57787a7876706e323032336b657940247d100314f04d9742bf58b43d95aecb24c1/fp/view?m=fp"
@@ -752,7 +768,7 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade app-pane" id="other-tab-pane" role="tabpanel" aria-labelledby="network-tab"
+        <div class="tab-pane fade app-pane" id="other-tab-pane" role="tabpanel" aria-labelledby="other-tab"
              tabindex="0">
             <div class="col">
                 <div class="col-md-3">
@@ -870,7 +886,7 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade app-pane" id="settings-tab-pane" role="tabpanel" aria-labelledby="network-tab"
+        <div class="tab-pane fade app-pane" id="settings-tab-pane" role="tabpanel" aria-labelledby="settings-tab"
              tabindex="0">
             <div class="login-container">
                 <form id="settings">
@@ -895,7 +911,7 @@
                 <button class="btn btn-primary btn-block" style="margin-left: 20px" onclick="clearStore()">清除配置</button>
             </div>
         </div>
-        <div class="tab-pane fade app-pane" id="about-tab-pane" role="tabpanel" aria-labelledby="network-tab"
+        <div class="tab-pane fade app-pane" id="about-tab-pane" role="tabpanel" aria-labelledby="about-tab"
              tabindex="0">
             <div class="container">
                 <div class="jumbotron">

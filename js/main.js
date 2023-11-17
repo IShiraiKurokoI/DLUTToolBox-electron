@@ -140,10 +140,35 @@ function loadNetworkDataForNetwork() {
     });
 }
 
-function loadEleinfo() {
-    const url = 'https://api.m.dlut.edu.cn/oauth/authorize?client_id=19b32196decf419a&redirect_uri=https%3A%2F%2Fcard.m.dlut.edu.cn%2Fhomerj%2FopenRjOAuthPage&response_type=code&scope=base_api&state=weishao';
+function loadEleinfo(notification) {
+    var ele = $(".eleinfo")
+    ele.append("<p>正在加载电费数据。。。。</p>")
+    ipcRenderer.on('query_eleinfo', (event, response) => {
+        ele.empty()
+        ele.append("<div>您当前寝室电费数据为：</div>")
+        try {
+            if (parseFloat(response)<0){
+                ele.append(`<span class='badge text-bg-danger'>${response}</span>`)
+                ele.append(`<div>⚠电费余额已经耗尽，请立即充值！⚠</div>`)
+            }else if (parseFloat(response)<10){
+                ele.append(`<span class='badge text-bg-warning'>${response}</span>`)
+                ele.append(`<div>⚠电费余额即将耗尽，请及时充值！⚠</div>`)
+            }else {
+                ele.append(`<span class='badge text-bg-success'>${response}</span>`)
+                ele.append(`<div>电费余额较为充足，请放心使用。</div>`)
+            }
+        }catch (e){
+            ele.append(`<span class='badge text-bg-primary'>${response}</span>`)
+        }
 
-    //todo:完成电费查看
+        if (notification){
+            new Notification("刷新成功", {
+                icon: path.join(__dirname, 'icon.ico'),
+                body: "电费信息已经成功刷新！"
+            }).onclick = () => console.log("")
+        }
+    });
+    ipcRenderer.send('query_eleinfo');
 }
 
 function clearStore() {
@@ -292,7 +317,12 @@ window.onload = function () {
         }).onclick = () => console.log("")
     })
 
+    $("#RefreshEleinfo").on('click', function () {
+        loadEleinfo(true)
+    })
+
     load_class_table(store.get("username"))
     loadNetworkDataForGeneral()
     loadNetworkDataForNetwork()
+    loadEleinfo(false)
 };

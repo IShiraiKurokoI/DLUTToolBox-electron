@@ -1,8 +1,9 @@
-const {app, BrowserWindow, Menu, globalShortcut, ipcMain, clipboard, Notification} = require('electron')
+const {app, BrowserWindow, Menu, globalShortcut, ipcMain, clipboard, Notification,BrowserView} = require('electron')
 const path = require('path')
 const Store = require('electron-store');
 const url = require("url");
 Store.initRenderer()
+const fs = require('fs');
 
 const store = new Store();
 
@@ -167,6 +168,61 @@ function creteWindowForUrl(url){
 }
 
 app.whenReady().then(() => {
+    //查询电费
+    ipcMain.on('query_eleinfo', (baseevent) => {
+        const currentHour = new Date().getHours();
+        if (currentHour >= 23 || currentHour < 1) {
+            baseevent.sender.send('query_eleinfo', "⚠当前不在电费查询时间段⚠");
+            return;
+        }
+        const childWin = new BrowserWindow({
+            width: 200,
+            height: 100,
+            show:false,
+            webPreferences:{
+                partition:"query_eleinfo",
+                webSecurity: false
+            },
+            icon: path.join(__dirname, 'icon.ico')
+        });
+
+        childWin.webContents.userAgent="weishao"
+
+        childWin.webContents.on('console-message', (event, level, message, line, sourceId) => {
+            if (message.includes("this_is_freaking_ele_data:")) {
+                let data = message.split("this_is_freaking_ele_data:")[1]
+                baseevent.sender.send("query_eleinfo",data)
+                childWin.close()
+            }
+        });
+
+
+        childWin.webContents.on('dom-ready', () => {
+            const currentURL = childWin.webContents.getURL();
+            if (currentURL.includes("api.m.dlut.edu.cn/login?")){
+                childWin.webContents.executeJavaScript("username.value='" + store.get("username") + "';password.value='" + store.get("password") + "';btnpc.disabled='';btnpc.click()");
+            }
+            if (currentURL.includes("homerj") && !currentURL.includes("api")) {
+                childWin.webContents.executeJavaScript("window.location.href='https://card.m.dlut.edu.cn/elepay/openElePay?openid='+openid[0].value+'&displayflag=1&id=30'");
+            }
+            if (currentURL.includes("openElePay")) {
+                const queryScriptPath = 'js/query.js';
+                fs.readFile(queryScriptPath, 'utf-8', (err, data) => {
+                    if (err) {
+                        console.error("Error reading query.js:", err);
+                        return;
+                    }
+                    // 执行外部文件内容
+                    childWin.webContents.executeJavaScript(data);
+                });
+            }
+        });
+
+        childWin.loadURL("https://api.m.dlut.edu.cn/oauth/authorize?client_id=19b32196decf419a&redirect_uri=https%3A%2F%2Fcard.m.dlut.edu.cn%2Fhomerj%2FopenRjOAuthPage&response_type=code&scope=base_api&state=weishao");
+    });
+
+
+
     if (!store.get("username")){
         console.log("first use init")
         const loginWindow = new BrowserWindow({
