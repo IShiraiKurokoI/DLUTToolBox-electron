@@ -180,21 +180,20 @@ app.whenReady().then(() => {
             height: 100,
             show:false,
             webPreferences:{
+                preload:path.join(__dirname, 'js/preload_ele.js'),
                 partition:"query_eleinfo",
-                webSecurity: false
+                webSecurity: false,
+                nodeIntegration:true
             },
             icon: path.join(__dirname, 'icon.ico')
         });
 
-        childWin.webContents.userAgent="weishao"
-
-        childWin.webContents.on('console-message', (event, level, message, line, sourceId) => {
-            if (message.includes("this_is_freaking_ele_data:")) {
-                let data = message.split("this_is_freaking_ele_data:")[1]
-                baseevent.sender.send("query_eleinfo",data)
-                childWin.close()
-            }
+        ipcMain.on('message', (event, arg) => {
+            baseevent.sender.send("query_eleinfo",arg)
+            childWin.close()
         });
+
+        childWin.webContents.userAgent="weishao"
 
 
         childWin.webContents.on('dom-ready', () => {

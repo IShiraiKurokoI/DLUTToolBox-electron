@@ -8,14 +8,14 @@ function send(eleinfo) {
             var data1 = data.resultData;
             if ("E001" == $("#factorycode").val() || "E002" == $("#factorycode").val()) {
                 $("#roombalance").val(dkywcommon.fenToYuan(dkywcommon.yuanToFen(data1.sydl)));
-                console.log('this_is_freaking_ele_data:' + dkywcommon.fenToYuan(dkywcommon.yuanToFen(data1.sydl)));
+                electronApi.post(dkywcommon.fenToYuan(dkywcommon.yuanToFen(data1.sydl)));
             } else if ("E003" == $("#factorycode").val()) {
                 var syld = data1.sydl;
                 var sylds = syld.split("/");
                 var room = sylds[0];
                 var living = sylds[1];
                 $("#roombalance").val("房间：" + parseInt(room) + "，客厅：" + parseInt(living));
-                console.log('this_is_freaking_ele_data:' + "房间：" + parseInt(room) + "，客厅：" + parseInt(living));
+                electronApi.post("房间：" + parseInt(room) + "，客厅：" + parseInt(living));
             }
         } else {
             $("#roombalance").val("");
