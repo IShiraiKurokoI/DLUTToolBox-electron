@@ -79,6 +79,10 @@ function updateTableForGeneral(data) {
     $('.general-network-table #account').text(data.uid);
     $('.general-network-table #name').text(data.NID);
     $('.general-network-table #ipAddress').text(data.v4ip);
+    if(!data.v4ip){
+        $('.network-table #_ipAddress').text(data.v46ip);
+    }
+    if (data.result !== 1) return;
     $('.general-network-table #macAddress').text(data.olmac.split(':').join('; '));
     $('.general-network-table #usedFlow').text(formatBytes(data.flow));
     $('.general-network-table #remainingFlow').text(formatBytes(data.olflow));
@@ -114,6 +118,10 @@ function updateTableForNetwork(data) {
     $('.network-table #_account').text(data.uid);
     $('.network-table #_name').text(data.NID);
     $('.network-table #_ipAddress').text(data.v4ip);
+    if(!data.v4ip){
+        $('.network-table #_ipAddress').text(data.v46ip);
+    }
+    if (data.result !== 1) return;
     $('.network-table #_macAddress').text(data.olmac.split(':').join('; '));
     $('.network-table #_usedFlow').text(formatBytes(data.flow));
     $('.network-table #_remainingFlow').text(formatBytes(data.olflow));
@@ -203,6 +211,7 @@ window.onload = function () {
     //todo:fix these two webview
 
     if (process.env.NODE_ENV === 'development') {
+        console.warn("当前环境：测试环境")
         $("#workframe")[0].addEventListener('console-message', (e) => {
             console.log('work page log: ', e.message)
         })
@@ -226,6 +235,7 @@ window.onload = function () {
             }
         })
     } else {
+        console.warn("当前环境：生产环境")
         let simplified = false;
         // temporarily fix, very dumb
         setInterval(function (){
@@ -299,7 +309,10 @@ window.onload = function () {
         $.get('http://172.20.30.1/drcom/chkstatus?callback=', async function (data) {
             data = "{" + data.split("({")[1].split("})")[0] + "}";
             data = JSON.parse(data);
-            var loginURL = `https://sso.dlut.edu.cn/cas/login?service=http%3A%2F%2F172.20.30.2%3A8080%2FSelf%2Fsso_login%3Fwlan_user_ip%3D${data.v4ip}%26authex_enable%3D%26type%3D1`;
+            let loginURL = `https://sso.dlut.edu.cn/cas/login?service=http%3A%2F%2F172.20.30.2%3A8080%2FSelf%2Fsso_login%3Fwlan_user_ip%3D${data.v4ip}%26authex_enable%3D%26type%3D1`;
+            if (!data.v4ip){
+                loginURL = `https://sso.dlut.edu.cn/cas/login?service=http%3A%2F%2F172.20.30.2%3A8080%2FSelf%2Fsso_login%3Fwlan_user_ip%3D${data.v46ip}%26authex_enable%3D%26type%3D1`;
+            }
             ipcRenderer.send('network_login', loginURL);
         });
     })

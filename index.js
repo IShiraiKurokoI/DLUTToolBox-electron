@@ -52,6 +52,12 @@ if (process.platform === 'win32') {
     app.setAppUserModelId("DLUTToolBox-electron");
 }
 
+if (process.env.NODE_ENV !== 'development') {
+    console.log("生产环境启动程序")
+}else {
+    console.log("调试环境启动程序")
+}
+
 function createWindow() {
     const mainWindow = new BrowserWindow({
         width: 1360,
