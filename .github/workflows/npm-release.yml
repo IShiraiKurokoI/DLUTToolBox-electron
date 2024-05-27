@@ -45,5 +45,5 @@ jobs:
           ./dist/*.deb
           ./dist/*.dmg
           ./dist/*.zip
-        tag_name: "1.2.6"
+        tag_name: "1.2.7"
         token: ${{ secrets.GITHUB_TOKEN }}

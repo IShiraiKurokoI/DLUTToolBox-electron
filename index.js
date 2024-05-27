@@ -46,6 +46,14 @@ const functions = [
     "https://webvpn.dlut.edu.cn/http/57787a7876706e323032336b6579402471150d17ff4d9742bf58b43d95aecb249a/sso/dlut?filter=app&from=rj",
     "https://sso.dlut.edu.cn/cas/login?service=http%3A%2F%2Fjob.dlut.edu.cn%2FautoLogin",
     "https://webvpn.dlut.edu.cn/http/57787a7876706e323032336b657940247d081017f305dd4aa659ee7694bf90694722/sso/login.jsp?filter=app&from=rj",
+    "http://webvpn.dlut.edu.cn/http/57787a7876706e323032336b65794024791c0f55e81a9049e448f62d85f58023f6c217c3/api/login/login?from=rj&filter=app",
+    "https://webvpn.dlut.edu.cn/http/57787a7876706e323032336b65794024731e130ce504dd4aa659ee7694bf9069e201/prod-api/ssoAuth?filter=app&from=rj",
+    "https://api.m.dlut.edu.cn/oauth/authorize?client_id=9qXqHnRQuhhViycC&redirect_uri=https%3a%2f%2flightapp.m.dlut.edu.cn%2fcheck%2fticketonline&response_type=code&scope=base_api&state=dlut",
+    "https://wlightapp.m.dlut.edu.cn/lostandfound",
+    "https://sso.dlut.edu.cn/cas/login?service=https%3A%2F%2Fopac.lib.dlut.edu.cn%3A443%2Fmeta-local%2Fopac%2Fcas%2Frosetta&from=rj",
+    "https://webvpn.dlut.edu.cn/http/57787a7876706e323032336b657940247f1f1801b2079f5bbe02ff3c84f58629/InteAuth/Account/IntegratedAuth",
+    "https://webvpn.dlut.edu.cn/https/57787a7876706e323032336b657940247c190856f80f865ae449fe2ddfb88b/jsp/archivesweb/custom/dlut/sso/index.jsp?filter=app",
+    "https://webvpn.dlut.edu.cn/http/57787a7876706e323032336b657940247a001a0cb2079f5bbe02ff3c84f58629/repairphone/sso/login?from=rj&filter=app"
 ]
 
 if (process.platform === 'win32') {
@@ -53,9 +61,9 @@ if (process.platform === 'win32') {
 }
 
 if (process.env.NODE_ENV !== 'development') {
-    console.log("生产环境启动程序")
+    console.log("[Main] The program is current in dev mode")
 }else {
-    console.log("调试环境启动程序")
+    console.log("[Main] The program is current in release mode")
 }
 
 function createWindow() {
@@ -320,6 +328,11 @@ app.whenReady().then(() => {
                 childWin.webContents.userAgent = "Mozilla/5.0 (Linux; Android 10; EBG-AN00 Build/HUAWEIEBG-AN00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/83.0.4103.106 Mobile Safari/537.36 weishao(3.2.2.74627)"
                 break;
             case 12:
+            case 38:
+            case 39:
+            case 40:
+            case 41:
+            case 45:
                 childWin.setSize(400, 700)
                 childWin.center()
                 break;
