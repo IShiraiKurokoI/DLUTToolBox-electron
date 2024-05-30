@@ -162,9 +162,11 @@ function loadEleinfo(notification) {
             }else if (parseFloat(response)<10){
                 ele.append(`<span class='badge text-bg-warning'>${response}</span>`)
                 ele.append(`<div>⚠电费余额即将耗尽，请及时充值！⚠</div>`)
-            }else {
+            }else if (response!=="⚠当前不在电费查询时间段⚠"){
                 ele.append(`<span class='badge text-bg-success'>${response}</span>`)
                 ele.append(`<div>电费余额较为充足，请放心使用。</div>`)
+            }else {
+                ele.append(`<span class='badge text-bg-info'>${response}</span>`)
             }
         }catch (e){
             ele.append(`<span class='badge text-bg-primary'>${response}</span>`)
@@ -207,67 +209,6 @@ window.onload = function () {
         }).onclick = () => console.log("")
         event.preventDefault()
     });
-
-    //todo:fix these two webview
-
-    if (process.env.NODE_ENV === 'development') {
-        console.warn("当前环境：测试环境")
-        $("#workframe")[0].addEventListener('console-message', (e) => {
-            console.log('work page log: ', e.message)
-        })
-        $("#workframe")[0].addEventListener('dom-ready', (e) => {
-            var currentURL = e.target.getURL();
-            if (currentURL.includes("cas/login?")) {
-                e.target.executeJavaScript("un.value='" + store.get("username") + "';pd.value='" + store.get("password") + "';rememberName.checked='checked';login()", false);
-            }
-        })
-
-        $("#weather")[0].addEventListener('console-message', (e) => {
-            console.log('weather page log: ', e.message)
-        })
-        $("#weather")[0].addEventListener('dom-ready', (e) => {
-            var currentURL = e.target.getURL();
-            if (currentURL.includes("cas/login?")) {
-                e.target.executeJavaScript("un.value='" + store.get("username") + "';pd.value='" + store.get("password") + "';rememberName.checked='checked';login()", false);
-            }
-            if (currentURL === "http://www.weather.com.cn/") {
-                e.target.executeJavaScript("document.body.innerHTML=document.getElementsByClassName('myWeather')[0].outerHTML;document.getElementsByClassName('myWeatherTop')[0].outerHTML='';document.getElementsByTagName('a')[0].outerHTML='';document.body.style='overflow:hidden;background-color:transparent';document.getElementsByTagName('div')[0].style='background-color:transparent';", false);
-            }
-        })
-    } else {
-        console.warn("当前环境：生产环境")
-        let simplified = false;
-        // temporarily fix, very dumb
-        setInterval(function (){
-            try {
-                let weather = $("#weather")[0];
-                let currentURL = weather.getURL();
-                if (currentURL.includes("cas/login?")) {
-                    weather.executeJavaScript("un.value='" + store.get("username") + "';pd.value='" + store.get("password") + "';rememberName.checked='checked';login()", false);
-                }
-                if (currentURL === "http://www.weather.com.cn/" && !simplified) {
-                    weather.executeJavaScript("document.body.innerHTML=document.getElementsByClassName('myWeather')[0].outerHTML;document.getElementsByClassName('myWeatherTop')[0].outerHTML='';document.getElementsByTagName('a')[0].outerHTML='';document.body.style='overflow:hidden;background-color:transparent';document.getElementsByTagName('div')[0].style='background-color:transparent';", false).then(()=>{
-                        simplified = true;
-                    });
-                }
-            }catch (e){
-                console.log(e)
-            }
-        },1000)
-        setInterval(function (){
-            try {
-                let work = $("#workframe")[0];
-                let currentURL = work.getURL();
-                if (currentURL.includes("cas/login?")) {
-                    work.executeJavaScript("un.value='" + store.get("username") + "';pd.value='" + store.get("password") + "';rememberName.checked='checked';login()", false);
-                }
-            }catch (e){
-                console.log(e)
-            }
-        },1000)
-    }
-
-
 
     $(document).on('click', '.app-card', function () {
         const dataFunction = $(this).data('function');
@@ -340,3 +281,28 @@ window.onload = function () {
     loadNetworkDataForNetwork()
     loadEleinfo(false)
 };
+
+document.getElementById('workframe').addEventListener('console-message', (e) => {
+    console.log('work page log: ', e.message)
+})
+document.getElementById('workframe').addEventListener('did-finish-load', (e) => {
+    var currentURL = document.getElementById('workframe').getURL()
+    console.warn(currentURL)
+    if (currentURL.includes("cas/login?")) {
+        document.getElementById('workframe').executeJavaScript("un.value='" + store.get("username") + "';pd.value='" + store.get("password") + "';rememberName.checked='checked';login()", false);
+    }
+})
+
+document.getElementById('weather').addEventListener('console-message', (e) => {
+    console.log('weather page log: ', e.message)
+})
+document.getElementById('weather').addEventListener('did-finish-load', (e) => {
+    var currentURL = document.getElementById('weather').getURL()
+    console.warn(currentURL)
+    if (currentURL.includes("cas/login?")) {
+        document.getElementById('weather').executeJavaScript("un.value='" + store.get("username") + "';pd.value='" + store.get("password") + "';rememberName.checked='checked';login()", false);
+    }
+    if (currentURL === "http://www.weather.com.cn/") {
+        document.getElementById('weather').executeJavaScript("document.body.innerHTML=document.getElementsByClassName('myWeather')[0].outerHTML;document.getElementsByClassName('myWeatherTop')[0].outerHTML='';document.getElementsByTagName('a')[0].outerHTML='';document.body.style='overflow:hidden;background-color:transparent';document.getElementsByTagName('div')[0].style='background-color:transparent';", false);
+    }
+})

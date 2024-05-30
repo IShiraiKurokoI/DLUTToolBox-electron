@@ -1,6 +1,6 @@
 {
   "name": "dluttoolbox-electron",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -14,8 +14,8 @@
     "email": "ishirai_kurokoi@foxmail.com"
   },
   "devDependencies": {
-    "electron": "^27.0.2",
-    "electron-builder": "^24.6.4",
+    "electron": "30.0.9",
+    "electron-builder": "^24.13.3",
     "electron-icon-builder": "^2.0.1"
   },
   "license": "ISC",
