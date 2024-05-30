@@ -1,4 +1,4 @@
-name: Build and Release Electron App
+name: 使用GithubAction构建并生成App
 
 on:
   push:
@@ -18,10 +18,10 @@ jobs:
 
     steps:
     - name: 迁出仓库
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: 安装Node.js
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
       with:
         node-version: 20
 
@@ -36,7 +36,8 @@ jobs:
 
     - name: 创建Release
       id: create_release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
+      if: startsWith(github.ref, 'refs/tags/')
       with:
         files: |
           ./dist/*.msi
@@ -45,5 +46,4 @@ jobs:
           ./dist/*.deb
           ./dist/*.dmg
           ./dist/*.zip
-        tag_name: "1.2.7"
         token: ${{ secrets.GITHUB_TOKEN }}
