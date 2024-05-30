@@ -15,35 +15,43 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: macos-latest
+            arch: x86_64
+          - os: macos-latest
+            arch: arm64
 
     steps:
-    - name: 迁出仓库
-      uses: actions/checkout@v4
+      - name: 迁出仓库
+        uses: actions/checkout@v4
 
-    - name: 安装Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 20
+      - name: 安装Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-    - name: 安装依赖
-      run: npm install
+      - name: 安装依赖
+        run: npm install
 
-    - name: 构建应用
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run:
-        npm run pack
+      - name: 构建应用
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [[ "${{ matrix.os }}" == "macos-latest" ]]; then
+            export npm_config_arch=${{ matrix.arch }}
+          fi
+          npm run pack
 
-    - name: 创建Release
-      id: create_release
-      uses: softprops/action-gh-release@v2
-      with:
-        files: |
-          ./dist/*.msi
-          ./dist/*.exe
-          ./dist/*.rpm
-          ./dist/*.deb
-          ./dist/*.dmg
-          ./dist/*.zip
-        tag_name: "1.2.8"
-        token: ${{ secrets.GITHUB_TOKEN }}
+      - name: 创建Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ./dist/*.msi
+            ./dist/*.exe
+            ./dist/*.rpm
+            ./dist/*.deb
+            ./dist/*.dmg
+            ./dist/*.zip
+          tag_name: "1.2.8"
+          token: ${{ secrets.GITHUB_TOKEN }}
