@@ -1,6 +1,7 @@
 {
   "name": "dluttoolbox-electron",
-  "version": "1.2.8",
+  "productName": "DLUTToolBox-Electron Version",
+  "version": "1.2.9",
   "description": "DLUTToolBox全新Electron版，支持Windows、Linux、Mac OS",
   "main": "index.js",
   "scripts": {
